@@ -1,0 +1,1 @@
+namespace SafeExamBrowser.Configuration.Integrity { internal static class RoundlaneReleaseKey { internal const string PublicKey = "68c65730aacd044fa50d02418acfc16f180f765773f820190a99d19459144d3b"; } }

@@ -1,0 +1,15 @@
+{
+  "archive": "/Users/dulatnurlanuly/Downloads/seb-contest-kit/dist/Roundlane.zip",
+  "sha256": "f41039707e243013322cf6f2e8f2673aa75b3f29a8f3204228eef4a9f81e9526",
+  "crc": "passed",
+  "entry_sha256": "passed",
+  "mac": "3.5",
+  "windows": "2.5",
+  "mac_cloudflare": "not_passed",
+  "windows_codeforces": "loaded_in_SEB_VM",
+  "windows_fresh_cloudflare_challenge": "not_observed",
+  "account_login_and_submission": "not_verified",
+  "mac_exam_started": false,
+  "windows_exam_exited": true,
+  "production_ready": false
+}

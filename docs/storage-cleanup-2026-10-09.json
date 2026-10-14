@@ -1,0 +1,125 @@
+{
+  "targets": [
+    {
+      "path": "/Users/dulatnurlanuly/Library/Caches/com.openai.codex/org.sparkle-project.Sparkle/Installation/97ui1DQnm",
+      "bytes_before": 2381934592,
+      "reason": "inactive updater cache",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/Library/Caches/com.openai.codex/org.sparkle-project.Sparkle/Installation/JLhKJWVCk",
+      "bytes_before": 2381934592,
+      "reason": "inactive updater cache",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/Library/Caches/com.openai.codex/org.sparkle-project.Sparkle/Installation/VwyuHYPMn",
+      "bytes_before": 2379706368,
+      "reason": "inactive updater cache",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/D5-QTaCbl9VUFv9Wr0C28eFewRc=.00c18334748d6a79f4bfca85406336f1bb8a41c87e628dbc82924d6831cb1069.b4b5b84d.incomplete",
+      "bytes_before": 69632,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.23d815b7.incomplete",
+      "bytes_before": 268886016,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.a8ecb563.incomplete",
+      "bytes_before": 0,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/D5-QTaCbl9VUFv9Wr0C28eFewRc=.00c18334748d6a79f4bfca85406336f1bb8a41c87e628dbc82924d6831cb1069.7b0c3863.incomplete",
+      "bytes_before": 605016064,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.5586f10f.incomplete",
+      "bytes_before": 0,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/Y6g195DXbsCiN_Ka1NwH6jyLkvc=.4ad0c3fd9cf3475960bf4a94d19c186a71fc952abaae047785d7203e6b0e9920.85f3e200.incomplete",
+      "bytes_before": 3680600064,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.e709e135.incomplete",
+      "bytes_before": 268886016,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/D5-QTaCbl9VUFv9Wr0C28eFewRc=.00c18334748d6a79f4bfca85406336f1bb8a41c87e628dbc82924d6831cb1069.b844641d.incomplete",
+      "bytes_before": 336007168,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/Y6g195DXbsCiN_Ka1NwH6jyLkvc=.4ad0c3fd9cf3475960bf4a94d19c186a71fc952abaae047785d7203e6b0e9920.67a77727.incomplete",
+      "bytes_before": 201777152,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/Y6g195DXbsCiN_Ka1NwH6jyLkvc=.4ad0c3fd9cf3475960bf4a94d19c186a71fc952abaae047785d7203e6b0e9920.a4364c5d.incomplete",
+      "bytes_before": 740012032,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/Y6g195DXbsCiN_Ka1NwH6jyLkvc=.4ad0c3fd9cf3475960bf4a94d19c186a71fc952abaae047785d7203e6b0e9920.ce9bfc94.incomplete",
+      "bytes_before": 0,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/D5-QTaCbl9VUFv9Wr0C28eFewRc=.00c18334748d6a79f4bfca85406336f1bb8a41c87e628dbc82924d6831cb1069.338a4e99.incomplete",
+      "bytes_before": 69632,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.elan/tmp/z1ov5iwfi1q55l45_file",
+      "bytes_before": 120995840,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.elan/tmp/0xllrr_2pkqvvc5j_file",
+      "bytes_before": 236847104,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.elan/tmp/wkr0it9q_u11o6z2_file",
+      "bytes_before": 218513408,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.elan/tmp/ymq_vwcs0npj3yb0_file",
+      "bytes_before": 182566912,
+      "reason": "inactive incomplete download older than 30 days",
+      "action": "removed"
+    }
+  ],
+  "free_bytes_after": 33293856768,
+  "additional_free_bytes": 6591467520,
+  "other_actions": [
+    "go clean -cache",
+    "npm cache clean --force"
+  ],
+  "uv_cache": "preserved because in use"
+}

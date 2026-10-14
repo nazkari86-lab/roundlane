@@ -1,0 +1,74 @@
+{
+  "checked_at": "2026-10-09T02:58:25.104339+05:00",
+  "build": "succeeded",
+  "architecture": "arm64",
+  "signature": "ad hoc; verified",
+  "native_seb_runtime_compiled": true,
+  "missing_proprietary_library": "macOS link reference removed; no replacement library or security-check stubs",
+  "self_test": {
+    "exam_started": false,
+    "lockdown_mode": "classic",
+    "apple_aac_required": false,
+    "self_test": "passed",
+    "native_seb_runtime": true
+  },
+  "ui": {
+    "accessibility_labels_verified": true,
+    "group_visible": true,
+    "exit_code_visible": "1234",
+    "start_enabled": true,
+    "enter_did_not_start_exam": true,
+    "invalid_code_rejected_and_corrected": true,
+    "second_confirmation_code_visible": true,
+    "escape_returns_to_form": true,
+    "escape_exited_process": true,
+    "screenshot": "setup/roundlane-classic-enabled.png",
+    "installed_form_reopened_for_user": true
+  },
+  "assessment_session_tested": false,
+  "windows_native_build": "not built; ISO SHA-256 rejected",
+  "artifacts": [
+    {
+      "path": "native-mac/dist/Roundlane 3.1 Development.zip",
+      "bytes": 10406096,
+      "sha256": "5ce1965dc7f1bb271c147f91c7eeef89ff917e9ecf26e9f014bca5c1312a5eeb"
+    },
+    {
+      "path": "native-mac/dist/Roundlane 3.1 Source Changes.zip",
+      "bytes": 26389,
+      "sha256": "a0134374b33954dbed5ebddbf555d1c88ebb276e1c0f6f6ca5377e2117f619f0"
+    }
+  ],
+  "version": "3.1",
+  "lockdown_mode": "classic (policy 1)",
+  "apple_aac_required": false,
+  "preflight_check": {
+    "apple_aac_required": false,
+    "preflight_check": "passed",
+    "temporary_directory": "/var/folders/z3/pz40jzcn5qq8qssmy__cw2jm0000gn/T/Roundlane-E2ADCFD0-4DC1-4A48-8E0D-AA3B552B34F1",
+    "profile_created": true,
+    "lockdown_mode": "classic",
+    "helper_token_verified": true,
+    "quit_hash_matches": true,
+    "exam_started": false,
+    "allow_quit": true,
+    "show_quit_button": true,
+    "temporary_profile_cleanup_verified": true
+  },
+  "installation": {
+    "path": "/Applications/Roundlane.app",
+    "version": "3.1",
+    "desktop_link": "/Users/dulatnurlanuly/Desktop/Roundlane.app",
+    "old_launcher_backup": "/Users/dulatnurlanuly/Library/Application Support/Roundlane/SetupBackups/Roundlane-2.1-before-classic-20261009-025634.app"
+  },
+  "classic_exam_session_tested": false,
+  "helper_test_prior_3_0_build": {
+    "health_token_verified": true,
+    "group_configuration_verified": true,
+    "starter_served_exactly": true,
+    "parent_exit_cleanup_verified": true,
+    "cleanup_seconds": 1.94,
+    "helper_exit_code": 0,
+    "assessment_started": false
+  }
+}

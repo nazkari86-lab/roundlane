@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-09T19:02:20.000387+00:00",
+  "archive": "/Users/dulatnurlanuly/Downloads/seb-contest-kit/dist/Roundlane.zip",
+  "download": "/Users/dulatnurlanuly/Downloads/Roundlane.zip",
+  "bytes": 549097625,
+  "sha256": "c344853463de6cc943af6a99d4b705d70d35dffea1ccb3c71f64ecbdafa32fa7",
+  "zip_crc": "passed",
+  "all_entry_sha256": "matched source files",
+  "entries": [
+    "Roundlane Mac.dmg",
+    "Roundlane Windows.exe",
+    "Перед олимпиадой.txt",
+    "Sources/Roundlane Sources.zip",
+    "Sources/LICENSE-SEB.txt",
+    "Проверка/docs/competition-package-2026-10-09.md",
+    "Проверка/docs/competition-package-verification-2026-10-09.json",
+    "Проверка/setup/bundle-check/mac-final-self-test.json",
+    "Проверка/setup/bundle-check/mac-preflight.json",
+    "Проверка/setup/bundle-check/mac-organizer.png",
+    "Проверка/setup/bundle-check/mac-confirmation.png",
+    "Проверка/setup/bundle-check/windows-install-final.json",
+    "Проверка/setup/bundle-check/windows-final-cleanup.json",
+    "Проверка/setup/bundle-check/windows-payload-final-check.json",
+    "Проверка/setup/bundle-check/vendor-signatures.json",
+    "Проверка/setup/bundle-check/windows-final-installed.png",
+    "Проверка/setup/bundle-check/windows-organizer-final.png",
+    "Проверка/setup/bundle-check/windows-confirmation-final.png",
+    "Проверка/setup/bundle-check/windows-embedded-vendor.png",
+    "Проверка/setup/bundle-check/windows-cancelled-vendor.png",
+    "Проверка/setup/bundle-check/windows-seb-restored.json"
+  ],
+  "download_same_inode": true
+}

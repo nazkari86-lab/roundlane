@@ -1,0 +1,8 @@
+Roundlane Windows is a modified build of the public Safe Exam Browser source.
+Upstream: https://github.com/SafeExamBrowser/seb-win-refactoring
+Revision: 167f82f8c3ec6773ec9be6c5af7fb492b5b2ed50
+Covered source files remain under MPL-2.0; original copyright notices are preserved.
+Changes: product identity, isolated IPC/service/cache, bundled runtime selection.
+The proprietary SEB integrity DLL is not included and official Browser Exam Key
+compatibility and official SEB integrity protection are not claimed.
+Build: scripts/build-native-windows.ps1; source: included source archive.

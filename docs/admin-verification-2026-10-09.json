@@ -1,0 +1,93 @@
+{
+  "checked_at": "2026-10-09T17:41:00.546688+00:00",
+  "native_mac": {
+    "version": "3.2",
+    "installed": "/Applications/Roundlane.app",
+    "signature": "ad hoc verified",
+    "self_test": "passed",
+    "organizer_ui": "passed",
+    "preflight": {
+      "apple_aac_required": false,
+      "preflight_check": "passed",
+      "temporary_directory": "/var/folders/z3/pz40jzcn5qq8qssmy__cw2jm0000gn/T/Roundlane-5A62A14C-78CD-476C-808F-A8B71F81E709",
+      "profile_created": true,
+      "lockdown_mode": "classic",
+      "helper_token_verified": true,
+      "quit_hash_matches": true,
+      "exam_started": false,
+      "allow_quit": true,
+      "show_quit_button": true
+    },
+    "exam_started": false,
+    "exam_menu_and_splash": "source/build checked, actual exam untested"
+  },
+  "mac_launcher": {
+    "version": "2.2",
+    "architectures": [
+      "arm64",
+      "x86_64"
+    ],
+    "self_test": "passed",
+    "organizer_ui": "passed",
+    "exam_started": false
+  },
+  "windows_launcher": {
+    "version": "2.2",
+    "architecture": "x64",
+    "test_environment": "Windows11 ARM64 under UTM with x64 emulation",
+    "installed_files_match_dist": true,
+    "organizer_ui": "passed",
+    "generated_code": "4084",
+    "start_and_normal_exit": "passed",
+    "vm_overrides": {
+      "allowVirtualMachine": {
+        "production": false,
+        "vm_test": true
+      },
+      "allowedDisplaysIgnoreFailure": {
+        "production": null,
+        "vm_test": true
+      }
+    },
+    "production_profile_restored": true,
+    "exit_audit": "setup/admin-check/windows-exit.json",
+    "relaunch_code_reset": "1234 observed",
+    "final_narrow_ui": "passed"
+  },
+  "packages": {
+    "native-mac/dist/Roundlane 3.2 Development.zip": {
+      "bytes": 10415611,
+      "sha256": "a7e4da75111152d5a9183eb2b7d5cbb0095c8cb684853b93ba93692b3a1549f8",
+      "zip_integrity": "passed"
+    },
+    "mac-app/dist/Roundlane 2.2.zip": {
+      "bytes": 287782,
+      "sha256": "61e6000bf2a9b06e09fa0e0335da92d4effcded18f7362970c891e8274b8a303",
+      "zip_integrity": "passed"
+    },
+    "win-app/dist/Roundlane 2.2 Portable.zip": {
+      "bytes": 6214034,
+      "sha256": "233bab55ad3a2d5cf7df8efca963fb46df2aa0163309d9aa13d02bdd8c510426",
+      "zip_integrity": "passed"
+    },
+    "win-app/dist/Roundlane 2.2 Setup.exe": {
+      "bytes": 4821948,
+      "sha256": "5486bc45ea85ae4d1749c7e3e7e899eb0a5e708c997096c986566b79db4b0e36"
+    },
+    "mac-app/dist/Roundlane 2.2.dmg": {
+      "bytes": 575915,
+      "sha256": "46c1d42093f97570d0f7f1c26a3c2b830aa340b46ff107c2af860c8066277da3"
+    },
+    "native-mac/dist/Roundlane 3.2 Source Changes.zip": {
+      "bytes": 188513,
+      "sha256": "e681c95a44113ed9002b40aca077409fc45ba4262ca3c6dca3d4b5dfbcd43206",
+      "zip_integrity": "passed"
+    }
+  },
+  "remaining_release_limits": [
+    "No actual Mac exam verified",
+    "No native Windows runtime built",
+    "No real x64 Windows PC checked",
+    "No Codeforces login/submission checked"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "free_bytes": 13237071872,
+  "xcode_archive_bytes": 2253037901,
+  "xcode_installation": "26.2 (17C52) installed; signature verified; first launch ready",
+  "windows_image": "SHA-256 matches a published Microsoft row; ISO volume/lang.ini indicate en-us; hash table row says Arabic 64-bit (documented discrepancy)",
+  "windows_vm": "Windows 11 ARM64; Roundlane 2.4 installed with existing official SEB; shared settings and cancellation/cleanup verified without exam",
+  "utm": "4.7.5 installed; startup fixed by preserving old registry backup and disabling restoration of inaccessible Kali entry",
+  "seb_mac_checkout": "3.7.1 public checkout adapted for Roundlane; unavailable macOS libSEBSupport link reference removed; public code links successfully",
+  "apple_aac": "unavailable; optional for a future AAC mode, not required by the selected classic mode",
+  "roundlane_exam_app": "Mac 3.4 universal installed with backup of 3.3; classic public runtime. Windows 2.4 full installer with official SEB. Shared settings verified; actual exam not started this version",
+  "target_100gb": "not achieved",
+  "storage_reports": [
+    "storage-cleanup-2026-10-09.json",
+    "apfs-dedup-2026-10-09.json",
+    "ollama-cleanup-2026-10-09.json"
+  ],
+  "windows_download_physical_bytes": 5705318400,
+  "windows_build_tools": "official VS2022 Build Tools bootstrapper downloaded; not installed",
+  "mac_build_blockers": [
+    "proprietary security-module equivalence and actual classic exam session are unverified"
+  ],
+  "native_macos_package": "native-mac/dist/Roundlane Mac.dmg",
+  "windows_image_report": "setup/windows-check/verified-image.json",
+  "windows_verification": "docs/windows-verification-2026-10-09.json",
+  "windows_app_runtime_test": "2.4 exact installer and installed payload hashes matched; shared settings import/export, hidden code, cancel and cleanup verified. Clean installation/real x64 unverified",
+  "admin_verification": "docs/admin-experience-2026-10-09.md",
+  "windows_package": "win-app/dist/Roundlane 2.4 Full Setup.exe",
+  "competition_package": "dist/Roundlane.zip",
+  "competition_verification": "docs/shared-settings-verification-2026-10-10.json",
+  "checked_date": "2026-10-10",
+  "previous_setup_snapshot": "docs/setup-status-2026-10-09.json"
+}

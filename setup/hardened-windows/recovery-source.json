@@ -1,0 +1,22 @@
+[
+  {
+    "path": "SafeExamBrowser.Communication/Proxies/BaseProxy.cs",
+    "before": "07d111de4b0558fd6edf4b38a49d2845db7e9af15cabceaac02186e3a7dede01",
+    "after": "af4c1c3c9952c9d4e5dacab46896680e8373bf8be774984d877bd3757166f1f3"
+  },
+  {
+    "path": "SafeExamBrowser.Communication/Proxies/RuntimeProxy.cs",
+    "before": "73ebaff86e24e092268663b34c7f244864905f00c3ce3f8303e5393c4e8cc9e0",
+    "after": "0697b0eb5ad01d18701b0e59afdf4cb65c16b6f1ec27f158409b8c77a882eec2"
+  },
+  {
+    "path": "SafeExamBrowser.Client/Responsibilities/ClientResponsibility.cs",
+    "before": "eaf14a9557ed7a9e10d94ac6030ca78868c279f78a1bc30942cf54007ff24149",
+    "after": "54fe64ef508bece11398fc0a624a984966c24de02477c0f49e7be908927db9ec"
+  },
+  {
+    "path": "SafeExamBrowser.Client/Responsibilities/IntegrityResponsibility.cs",
+    "before": "18dfdd334b14ba212d65bad08edda99879b461dfb6a053ac1f16972c1f9c7333",
+    "after": "4055f543b176302ed1bb0de71d22451a02f3b147f5456fec11a48a8cdd71e514"
+  }
+]

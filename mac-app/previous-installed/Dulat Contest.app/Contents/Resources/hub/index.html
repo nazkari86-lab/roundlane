@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dulat Contest</title>
+<style>
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body { min-height: 100vh; margin: 0; padding: 24px; display: grid; place-items: center; background: #f3f5f8; color: #17233b; font: 17px/1.45 system-ui, sans-serif; }
+  main { width: min(100%, 540px); }
+  h1 { margin: 0 0 8px; font-size: 34px; line-height: 1.12; letter-spacing: -.025em; }
+  p { margin: 0; color: #40506a; }
+  nav { display: grid; gap: 12px; margin-top: 28px; }
+  nav a { display: block; padding: 20px 22px; border-radius: 14px; background: #143a78; color: #fff; font-weight: 700; text-decoration: none; }
+  nav a:hover { background: #0e2b58; }
+  nav a:focus-visible { outline: 4px solid #ffbd2e; outline-offset: 3px; }
+  nav a[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+  #status { min-height: 1.5em; margin-top: 15px; font-size: 14px; }
+  @media (max-width: 520px) { body { padding: 18px; } h1 { font-size: 30px; } nav a { padding: 18px; } }
+</style>
+<main>
+  <h1>Соревнование</h1>
+  <p>Codeforces · C++</p>
+  <nav aria-label="Ресурсы соревнования">
+    <a id="group-link" target="_blank" rel="noopener" aria-disabled="true">Задачи Codeforces</a>
+    <a id="compiler-link" target="_blank" rel="noopener" aria-disabled="true">C++ компилятор</a>
+  </nav>
+  <p id="status" role="status" aria-live="polite">Подготовка…</p>
+</main>
+<script src="/app.js" defer></script>
+</html>

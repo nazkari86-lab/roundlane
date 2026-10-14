@@ -1,0 +1,135 @@
+{
+  "checked_at": "2026-10-09T16:49:45.400828+00:00",
+  "platform": "Windows 11 ARM64 under UTM on Apple Silicon; x64 Roundlane package",
+  "package": {
+    "package_version": "2.1",
+    "native_3_1_windows_runtime_built": false,
+    "core_tests": "passed",
+    "windows_cross_build": "passed",
+    "windows_go_vet": "passed",
+    "zip_integrity": "passed",
+    "binaries": {
+      "Roundlane.exe": {
+        "machine": "x64",
+        "subsystem": "Windows GUI",
+        "sha256": "6975a5c3fb300754f6b684bfc8837097e45f95e6d4a1cd0de2b129bb71add533",
+        "matches_fresh_cross_build": true
+      },
+      "RoundlaneHub.exe": {
+        "machine": "x64",
+        "subsystem": "Windows GUI",
+        "sha256": "93829962654a3d576398612e80bf4eefda5ee0f801cfe167c27aa2dcdc44a469",
+        "matches_fresh_cross_build": true
+      }
+    },
+    "installer_no_startup_registration": true,
+    "requires_separately_installed_seb": true,
+    "seb_version_tested": "3.10.2.920",
+    "hub_tests": "3 passed",
+    "build_after_fix": "passed: win-app/build.sh, core tests, x64 binaries, NSIS installer and portable ZIP",
+    "artifacts": {
+      "win-app/dist/Roundlane 2.1 Setup.exe": {
+        "sha256": "4429a391805521c9a7dd2d32cd7d90cf87e268703b8f6950b5a2fca2b4019701",
+        "bytes": 4777563
+      },
+      "win-app/dist/Roundlane 2.1 Portable.zip": {
+        "sha256": "988df986f0cd1dd0bb0fb76262ce81adec47c9a891d9a05803f26ba1e5782332",
+        "bytes": 6185742
+      }
+    }
+  },
+  "image_verification": {
+    "source": "https://www.microsoft.com/en-us/software-download/windows11arm64",
+    "expected_sha256": "8992f2d2cfd2fa647e579e9eb31fc21f34da8333c29b6170fde17d2ed6623e9c",
+    "hash_reference_row": "Arabic 64-bit",
+    "status": "sha256_verified",
+    "vm_installed": true,
+    "sha256": "8992f2d2cfd2fa647e579e9eb31fc21f34da8333c29b6170fde17d2ed6623e9c",
+    "bytes": 8528523264,
+    "image": "/Users/dulatnurlanuly/Downloads/seb-contest-kit/setup/Windows11_Client_arm64_en-us_26300_9457.iso"
+  },
+  "vm": {
+    "name": "Roundlane Windows Test",
+    "uuid": "3212610A-6B47-4623-80F7-D710A7F459E2",
+    "memory_mb": 6144,
+    "cpu_cores": 4,
+    "virtual_disk_gib": 64,
+    "state": "Exam session exited normally; reboot completed; Windows desktop ready without Roundlane or SEB GUI autostart",
+    "os_installed": true,
+    "desktop_ready": true,
+    "local_account": "roundlanetest",
+    "guest_tools_installed": true,
+    "os_edition": "Microsoft Windows 11 Home Single Language",
+    "os_version": "10.0.26300",
+    "seb_installed": true
+  },
+  "runtime_checks": {
+    "launcher": "passed: shortcut launch, visible 1234, empty group rejection, confirmation and cancellation, missing SEB safe refusal",
+    "seb_session": "passed in ARM64 VM with two test-only profile overrides; production profile restored afterwards",
+    "codeforces": "Codeforces rendered in SEB; dummy group Test123 redirected to home; login and contest submission not tested",
+    "compiler": "full unmodified production C++ template loaded, compiled and ran in cpp.sh inside SEB; exit status 0",
+    "quit_code": "Ctrl+Q followed by 1234 completed normal exit twice",
+    "desktop_recovery": "passed after normal exit; no GUI, port 18765 listener or Roundlane temporary directories remained",
+    "reboot_no_autostart": "passed after normal exit followed by reboot; Explorer session 1 and SEB service session 0 only; no Roundlane/SEB GUI or port 18765 listener",
+    "diagnostics": "passed: profile, local hub and starter accessible; cpp.sh HTTP 200; Codeforces HTTP 403 requires browser check",
+    "url_filter": "google.com, chatgpt.com and github.com each displayed Page Blocked; client log confirms main requests blocked",
+    "keyboard_restrictions": "Win+R, Win+D and Ctrl+Shift+Escape did not leave SEB; no Taskmgr process afterwards; client log records LWin, AltTab, AltF4 and AltSpace interception",
+    "multiple_windows": "SEB child windows opened; main hub regained focus; convenient switching among existing windows not fully verified",
+    "crash_or_reboot_during_exam": "not tested",
+    "first_load_after_timeout_fix": "passed in SEB without retry; timeout raised from 6 to 30 seconds to accommodate Browser Exam Key startup delay"
+  },
+  "test_profile": {
+    "path": "setup/windows-check/share/Roundlane-vm-test/contest.seb",
+    "diff": "setup/windows-check/vm-profile-diff.json",
+    "overrides": {
+      "allowVirtualMachine": true,
+      "allowedDisplaysIgnoreFailure": true
+    },
+    "reason": "VM detection and WMI display query Not supported prevented startup with production settings",
+    "production_profile_restored": true,
+    "production_html_restored": true,
+    "installed_fixed_js_matches_source": true,
+    "production_profile_sha256": "aa40c73b887c643d55757d83b0e9ffb3db08c6b3f924a18327e92655d4d6f9ba",
+    "packaged_test_links_or_vm_overrides": false
+  },
+  "limitations": [
+    "Windows 2.1 requires separately installed official SEB; native Windows 3.1 build absent",
+    "Windows ARM64 VM runs x64 Roundlane under emulation; real x64 Windows PC lockdown not verified",
+    "Test session used two VM-only profile overrides; production profile itself was restored but not used for successful VM exam",
+    "Codeforces login, real group membership and contest submission not tested",
+    "Convenient switching among existing allowed SEB windows not fully verified",
+    "Crash recovery and reboot while exam is active not tested",
+    "Native Mac 3.1 actual exam session unverified; Mac packages not rebuilt for shared hub timeout fix"
+  ],
+  "pending_user_actions": [],
+  "transfer_server": "stopped",
+  "evidence": {
+    "windows_desktop": "observed via native CUA screenshot",
+    "guest_tools_license": "setup/windows-check/guest-tools-license.png",
+    "environment": "setup/windows-check/environment.json",
+    "launcher": "setup/windows-check/launcher-first-run.png",
+    "diagnostics": "setup/windows-check/diagnostics-before-seb.png",
+    "exit_confirmation": "setup/windows-check/exit-confirmation.png",
+    "codeforces": "setup/windows-check/codeforces-in-seb.png",
+    "first_load_fixed": "setup/windows-check/hub-first-load-fixed.png",
+    "compiler_template": "setup/windows-check/compiler-template.png",
+    "compiler_run": "setup/windows-check/compiler-exit-zero.png",
+    "google_blocked": "setup/windows-check/google-blocked.png",
+    "chatgpt_blocked": "setup/windows-check/chatgpt-blocked.png",
+    "github_blocked": "setup/windows-check/github-blocked.png",
+    "quit_code": "setup/windows-check/quit-password.png",
+    "desktop_after_exit": "setup/windows-check/desktop-after-exit.png",
+    "final_exit_audit": "setup/windows-check/final-exit.json",
+    "desktop_after_reboot": "setup/windows-check/desktop-after-reboot.png",
+    "after_reboot_audit": "setup/windows-check/after-reboot.json",
+    "seb_session_log": "setup/windows-check/seb-second-session-client.log"
+  },
+  "fix": {
+    "file": "hub/app.js",
+    "timeout_before_ms": 6000,
+    "timeout_after_ms": 30000,
+    "observed_startup_delay_seconds": "approximately 14-17",
+    "windows_packages_rebuilt": true,
+    "mac_packages_rebuilt_for_this_fix": false
+  }
+}

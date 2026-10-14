@@ -1,0 +1,67 @@
+{
+  "checked_at": "2026-10-09T19:01:53.812289+00:00",
+  "artifacts": {
+    "mac": {
+      "path": "native-mac/dist/Roundlane Mac.dmg",
+      "version": "3.3",
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "signature": "ad hoc, not notarized",
+      "bytes": 15076075,
+      "sha256": "5f4f654c5f1ca91ad2c0a32d7053ef403b73dddcb2aea56d1043758dc2b11ffb"
+    },
+    "windows": {
+      "path": "win-app/dist/Roundlane 2.3 Full Setup.exe",
+      "version": "2.3",
+      "runtime": "Official SEB 3.10.2.920; organizer executable 2.2",
+      "bytes": 529795426,
+      "sha256": "0c82d947de0afdf5c1ed54d9237f5ce81181779dfdab58d87201aa4f1763677b"
+    },
+    "sources": {
+      "path": "setup/bundle-check/Roundlane Sources.zip",
+      "bytes": 209121,
+      "sha256": "bf0331502cb5a52881348a8787432862e52f70c325e76863ddd384eb1fa089b3"
+    }
+  },
+  "mac": {
+    "self_test": "passed",
+    "dmg_integrity": "passed",
+    "bundle_signature": "passed ad hoc",
+    "organizer_and_confirmation": "inspected, cancelled",
+    "safe_preflight": "passed, exam_started=false",
+    "actual_exam_tested": false
+  },
+  "windows": {
+    "test_environment": "Windows 11 ARM64 UTM, x64 emulation",
+    "final_installer": "installed with existing SEB",
+    "payload_hashes": "matched audited source files",
+    "vendor_authenticode": "Valid for SEB, VC++ and .NET",
+    "generated_code_confirmation": "7484, Ctrl+Q; cancelled without exam",
+    "cleanup": {
+      "processes": [],
+      "version": "2.3",
+      "time": "2026-10-09T12:00:47.8267366-07:00",
+      "service": "Running",
+      "roundlaneAutorun": [],
+      "setupSHA256": "0C82D947DE0AFDF5C1ED54D9237F5CE81181779DFDAB58D87201AA4F1763677B",
+      "listeners": [],
+      "sessionDirectories": []
+    },
+    "missing_browser_simulation": "preliminary installer; registered SEB executable temporarily absent; official setup cancellation 1602 halted install; original restored",
+    "actual_exam_final_version_tested": false
+  },
+  "limits": [
+    "No clean Windows dependency installation runtime test",
+    "No runtime test of reboot-required branch 3010",
+    "No real x64 Windows PC test",
+    "No Intel Mac runtime test",
+    "No actual Mac lockdown test",
+    "No Mac Developer ID or notarization",
+    "Public Mac runtime equivalence to proprietary security modules unverified",
+    "Real participant Codeforces login/group/submission remains unverified"
+  ],
+  "evidence_directory": "setup/bundle-check",
+  "production_ready": false
+}

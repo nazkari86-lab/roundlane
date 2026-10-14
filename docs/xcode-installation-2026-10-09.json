@@ -1,0 +1,14 @@
+{
+  "status": "installed_signature_verified",
+  "assessment_app_built": false,
+  "assessment_session_started": false,
+  "path": "/Applications/Xcode.app",
+  "version": "26.2",
+  "version_command_exit_code": 0,
+  "version_command_output": "Xcode 26.2\nBuild version 17C52",
+  "first_launch_ready": true,
+  "first_launch_output": "",
+  "first_launch_check_exit_code": 0,
+  "public_seb_build_succeeded": true,
+  "native_roundlane_development_built": true
+}

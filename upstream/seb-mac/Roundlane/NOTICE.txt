@@ -1,0 +1,5 @@
+Roundlane 3.9 development build contains the public SEB macOS 3.7.1 runtime.
+SEB source revision: a1e3f786aac4aa2e827998dcf8ca139f2c5205a9.
+Original notices and MPL 2.0 terms are retained in the sources and bundled LICENCE.
+The proprietary libSEBSupport.a is not included. ROUNDLANE_PUBLIC_RUNTIME excludes its private startup marker requirement. This is not equivalent to the official private protections. Exam operation has not been verified.
+This build uses SEB classic kiosk mode (policy 1), which does not use Apple AAC. It is ad hoc signed.

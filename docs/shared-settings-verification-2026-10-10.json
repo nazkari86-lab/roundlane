@@ -1,0 +1,83 @@
+{
+  "checked_date": "2026-10-10",
+  "timezone": "Asia/Almaty",
+  "versions": {
+    "mac": "3.4",
+    "windows": "2.4"
+  },
+  "artifacts": {
+    "native-mac/dist/Roundlane Mac.dmg": {
+      "bytes": 15179872,
+      "sha256": "6134206128dc633739951e129e2bfb55147f168603ea9193f4b77dedae2051b3"
+    },
+    "native-mac/dist/Roundlane 3.4 Development.zip": {
+      "bytes": 12851419,
+      "sha256": "974463c7e0f4e44484b30c9988b29dc83efd7ed4d7646c8b1762c3d031cbc51a"
+    },
+    "win-app/dist/Roundlane 2.4 Full Setup.exe": {
+      "bytes": 529868502,
+      "sha256": "7371bdef70ed88a785789f1539bccd2edee37521ac2108d91c57fd557d27e195"
+    },
+    "win-app/dist/Roundlane 2.4 Portable.zip": {
+      "bytes": 6307949,
+      "sha256": "3f48106e9b5d389ab62ab0f17bc39478c0a5a2e9a4c6a389b03d83d4de02e648"
+    },
+    "setup/shared-settings-check/Roundlane Sources.zip": {
+      "bytes": 239233,
+      "sha256": "19221d5a889a62ad1ca01b33e31e3b9c5dd8b4971177dcedd8a246964dd1c806"
+    }
+  },
+  "settings_schema": {
+    "version": 1,
+    "maximum_bytes": 65536,
+    "plaintext_exit_code": false
+  },
+  "checks": {
+    "mac_and_windows_invalid_cases_rejected": 8,
+    "ui_exports_same_json": true,
+    "mac_export_imported_in_windows_ui": true,
+    "windows_export_checked_by_mac_profile": true,
+    "imported_code_hidden_in_form_and_confirmation": true,
+    "escape_cancels_confirmation_both_platforms": true,
+    "mac_narrow_and_wide_ui": true,
+    "windows_default_size_ui": true,
+    "mac_safe_preflight": true,
+    "mac_installed_and_dmg_self_tests": true,
+    "windows_installed_payload_hashes": true,
+    "windows_cleanup_and_no_autorun": true,
+    "actual_exam_started_this_version": false
+  },
+  "evidence": [
+    "setup/shared-settings-check/mac-dmg-self-test.json",
+    "setup/shared-settings-check/mac-dmg-settings-check.json",
+    "setup/shared-settings-check/mac-export.png",
+    "setup/shared-settings-check/mac-import-confirmation.png",
+    "setup/shared-settings-check/mac-import.png",
+    "setup/shared-settings-check/mac-install.json",
+    "setup/shared-settings-check/mac-installed-self-test.json",
+    "setup/shared-settings-check/mac-installed-settings-check.json",
+    "setup/shared-settings-check/mac-installed-settings-checks.json",
+    "setup/shared-settings-check/mac-narrow.png",
+    "setup/shared-settings-check/mac-preflight.json",
+    "setup/shared-settings-check/mac-settings-checks.json",
+    "setup/shared-settings-check/mac-wide.png",
+    "setup/shared-settings-check/mac-windows-export-check.json",
+    "setup/shared-settings-check/windows-cleanup.json",
+    "setup/shared-settings-check/windows-downloads.json",
+    "setup/shared-settings-check/windows-export.png",
+    "setup/shared-settings-check/windows-import-confirmation.png",
+    "setup/shared-settings-check/windows-import.png",
+    "setup/shared-settings-check/windows-install.json",
+    "setup/shared-settings-check/windows-installed.png",
+    "setup/shared-settings-check/windows-invalid-file.png",
+    "setup/shared-settings-check/windows-settings-checks.json"
+  ],
+  "limits": [
+    "Mac actual exam, Intel runtime and notarized distribution unverified",
+    "Windows tested in ARM64 VM with x64 emulation, not real x64 hardware",
+    "Windows installed-SEB branch tested; clean dependency installation unverified",
+    "Unsigned settings file; short exit codes can be brute-forced from hash",
+    "Settings do not remove OS administrator requirement for initial Windows SEB install",
+    "Imported settings must be reopened on each app launch"
+  ]
+}

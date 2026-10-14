@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Roundlane">
+  <rect x="32" y="32" width="960" height="960" rx="222" fill="#16242a"/>
+  <path d="M304 758V268h224c123 0 195 58 195 150s-72 149-195 149H304" fill="none" stroke="#f5f4ef" stroke-width="86" stroke-linejoin="round"/>
+  <path d="m524 568 202 190" fill="none" stroke="#77dbc0" stroke-width="86" stroke-linecap="round"/>
+</svg>

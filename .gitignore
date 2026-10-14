@@ -1,0 +1,26 @@
+# Organizer credentials and generated local state
+organizer-private/
+participant-cards/
+*organizer*password*.txt
+organizer-quit-password.txt
+codeforces-domain-users.txt
+runtime-signing.seed
+*.pem
+*.key
+.env
+.env.*
+# Build outputs and local diagnostics
+setup/
+dist/
+dist-*/
+**/bin/
+**/obj/
+**/packages/
+**/.build/
+**/__pycache__/
+**/node_modules/
+*.syso
+*.dmg
+*.exe
+*.zip
+.DS_Store

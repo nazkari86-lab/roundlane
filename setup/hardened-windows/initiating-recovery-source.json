@@ -1,0 +1,30 @@
+[
+  {
+    "path": "SafeExamBrowser.Communication/Proxies/BaseProxy.cs",
+    "after": "ab3b323840546e7727d01fe705ef3a51118ac1ade0b1aee7cb60ffd479319da0"
+  },
+  {
+    "path": "SafeExamBrowser.Communication/Proxies/RuntimeProxy.cs",
+    "after": "0697b0eb5ad01d18701b0e59afdf4cb65c16b6f1ec27f158409b8c77a882eec2"
+  },
+  {
+    "path": "SafeExamBrowser.Client/Responsibilities/ClientResponsibility.cs",
+    "after": "54fe64ef508bece11398fc0a624a984966c24de02477c0f49e7be908927db9ec"
+  },
+  {
+    "path": "SafeExamBrowser.Client/Responsibilities/IntegrityResponsibility.cs",
+    "after": "4055f543b176302ed1bb0de71d22451a02f3b147f5456fec11a48a8cdd71e514"
+  },
+  {
+    "path": "SafeExamBrowser.Communication.Contracts/ICommunication.cs",
+    "after": "57b4ecb5d0ea003011a7aa6e80f3780fa6af41f31759f483d79f60d2aea200c2"
+  },
+  {
+    "path": "SafeExamBrowser.Communication/Hosts/BaseHost.cs",
+    "after": "5959b018b501b16888532bf8eb306a3160ae0417083a19e3f51b30db0bd6dd1c"
+  },
+  {
+    "path": "SafeExamBrowser.Runtime/Communication/RuntimeHost.cs",
+    "after": "ab26f3034cfee160b3f998b04414bdc9dbaee587caeb4efdb6ed586d6af01a6d"
+  }
+]

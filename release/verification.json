@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "macVersion": "3.9.4",
+  "downloads": [
+    {
+      "path": "Roundlane-Mac-Tabs.dmg",
+      "sha256": "19714e7e40201809a63e65d8592b8d7c491364e3172c911c3e4212933e326e93",
+      "bytes": 105036624
+    },
+    {
+      "path": "Roundlane-Windows-Tabs.exe",
+      "sha256": "c2710b109e688ca0d7485b5b58c1ec3a4b620e9859e2f7ebc378d19aea6828a4",
+      "bytes": 294714641
+    }
+  ],
+  "macInstalled": true,
+  "windowsRuntimeFilesVerified": 344,
+  "windowsNativeBuild": "passed in Windows ARM64 VM",
+  "editorAdapterTests": 8,
+  "hubTests": 3,
+  "windowsWorkspaceAssertions": 19,
+  "macSafePreflight": "passed",
+  "macTabFixtureCloseAndRestart": "passed",
+  "organizerWrongCodeAndCancel": "passed",
+  "realEditorDraftsVerifiedOnSites": false,
+  "fullKioskTestedInThisRelease": false,
+  "realWindowsX64Tested": false,
+  "previousReleasePreserved": true
+}

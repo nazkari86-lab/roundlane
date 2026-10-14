@@ -1,0 +1,37 @@
+{
+  "free_bytes_before": 11199254528,
+  "free_bytes_after": 26706403328,
+  "physical_bytes_freed": 15507148800,
+  "changes": [
+    {
+      "path": "/Users/dulatnurlanuly/.ollama/models/blobs/sha256-62addd205d841412707a84024b9d1e7be44abac503da130bb5be4e1d2f639439",
+      "source": "/Users/dulatnurlanuly/ornith-q4km.gguf",
+      "sha256": "62addd205d841412707a84024b9d1e7be44abac503da130bb5be4e1d2f639439",
+      "action": "APFS clone; content preserved"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.locai/checkpoints/dulatnurlanuly_sandbox-game-dev/ornith-q4km.gguf",
+      "source": "/Users/dulatnurlanuly/ornith-q4km.gguf",
+      "sha256": "62addd205d841412707a84024b9d1e7be44abac503da130bb5be4e1d2f639439",
+      "action": "APFS clone; content preserved"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.e709e135.incomplete",
+      "source": "/Users/dulatnurlanuly/models/qwen2.5-coder-14b-gptq-int4/.cache/huggingface/download/NmVQgThqhsRkG2FlXLh-M51MilA=.27f1025c2ad82714f01b88690d68f888793cdb50c93596d950e752ed7214ee93.23d815b7.incomplete",
+      "sha256": "98dd25dc28e69ae969e248ed2f14319c566c0af283ab91ec4397d2dabe63fae1",
+      "action": "APFS clone; content preserved"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/.locai/checkpoints/dulatnurlanuly_sandbox-game-dev/Ornith-1.0-9B/model-00004-of-00004.safetensors",
+      "source": "/Users/dulatnurlanuly/Ornith-1.0-9B/model-00004-of-00004.safetensors",
+      "sha256": "4a71adb237089d5819c57ede49f8fd8bbe02c76757c1dc846bad5ca197c50725",
+      "action": "APFS clone; content preserved"
+    },
+    {
+      "path": "/Users/dulatnurlanuly/Downloads/flybrain/data/cache/sha256/95/95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621",
+      "source": "/Users/dulatnurlanuly/Downloads/flybrain/data/cache/body-neurotransmitters-male-cns-v1.0.feather",
+      "sha256": "95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621",
+      "action": "APFS clone; content preserved"
+    }
+  ]
+}

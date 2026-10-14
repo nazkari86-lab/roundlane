@@ -1,0 +1,16 @@
+{
+  "mac_version": "3.6",
+  "installed": true,
+  "build": "passed",
+  "self_test": "passed",
+  "filter_checks": "passed",
+  "archive_crc": "passed",
+  "entry_hashes": "passed",
+  "sha256": "0a283712f622dbba29c4f55a26515ce087dc46b990ff7dde96dc5e7891164542",
+  "captcha_checkbox": "visible_in_installed_Roundlane",
+  "captcha_completed": "completion_not_observed_by_agent",
+  "cloudflare_passed": true,
+  "exam_started": false,
+  "login_form": "visible_in_installed_Roundlane_safe_check",
+  "account_authentication": false
+}

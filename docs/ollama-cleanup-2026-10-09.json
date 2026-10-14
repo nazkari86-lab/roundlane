@@ -1,0 +1,38 @@
+{
+  "user_approved": true,
+  "free_bytes_before": 30135615488,
+  "free_bytes_after": 62892544000,
+  "physical_bytes_freed": 32756928512,
+  "changes": [
+    {
+      "model": "gpt-oss:20b",
+      "exit_code": 0,
+      "output": "deleted 'gpt-oss:20b'\n⠙ ⠹ ⠹"
+    },
+    {
+      "model": "qwen2.5vl:3b",
+      "exit_code": 0,
+      "output": "deleted 'qwen2.5vl:3b'\n⠋"
+    },
+    {
+      "model": "hf.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive:Q4_K_M",
+      "exit_code": 0,
+      "output": "deleted 'hf.co/HauhauCS/Qwen3.5-9B-Uncensored-HauhauCS-Aggressive:Q4_K_M'\n⠙ ⠹"
+    },
+    {
+      "model": "qwen3.5:2b",
+      "exit_code": 0,
+      "output": "deleted 'qwen3.5:2b'\n⠋ ⠙"
+    },
+    {
+      "model": "qwen3.5:9b-q4_K_M",
+      "exit_code": 0,
+      "output": "deleted 'qwen3.5:9b-q4_K_M'\n⠋ ⠹"
+    }
+  ],
+  "preserved": [
+    "ornith:latest",
+    "nomic-embed-text:latest",
+    "bge-m3:latest"
+  ]
+}
