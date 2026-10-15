@@ -27,7 +27,7 @@ Mac: перетащите Roundlane в Applications. Пакет подписан
 
 Полная репетиция блокировки на отдельном Mac и обычном Windows x64 нужна перед олимпиадой. Сохранение черновиков на текущих версиях реальных сайтов в этом выпуске не проверено. Эквивалентность защиты официальному SEB не заявляется.
 
-[Описание исправлений](docs/reliability-2026-10-14.md) · [Проверка служебных запросов Codeforces](docs/filter-audit-2026-10-14.md) · [Проверки выпуска](release/verification.json)
+[Описание исправлений](docs/reliability-2026-10-14.md) · [Проверка служебных запросов Codeforces](docs/filter-audit-2026-10-14.md) · [Проверки выпуска](https://github.com/nazkari86-lab/roundlane/releases/latest/download/verification.json)
 
 ## Исходники
 
