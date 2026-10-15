@@ -4,10 +4,10 @@
 
 ## Скачать
 
-- [macOS — Roundlane-Mac-Tabs.dmg](https://github.com/nazkari86-lab/roundlane/releases/download/v3.9.4/Roundlane-Mac-Tabs.dmg)
-- [Windows — Roundlane-Windows-Tabs.exe](https://github.com/nazkari86-lab/roundlane/releases/download/v3.9.4/Roundlane-Windows-Tabs.exe)
+- [macOS — Roundlane-Mac-Tabs.dmg](https://github.com/nazkari86-lab/roundlane/releases/latest/download/Roundlane-Mac-Tabs.dmg)
+- [Windows — Roundlane-Windows-Tabs.exe](https://github.com/nazkari86-lab/roundlane/releases/latest/download/Roundlane-Windows-Tabs.exe)
 
-Mac: версия 3.9.4, macOS 12.1+, Apple Silicon и Intel. Windows: обновлённый самостоятельный runtime 3.0, Windows 10/11 x64. Файлы выдаются отдельно, без общего ZIP.
+Mac: macOS 12.1+, Apple Silicon и Intel. Windows: обновлённый самостоятельный runtime 3.0, Windows 10/11 x64. Файлы выдаются отдельно, без общего ZIP.
 
 Mac: перетащите Roundlane в Applications. Пакет подписан ad hoc, без Developer ID и notarization. Windows: установщик включает runtime, службу восстановления и необходимые зависимости; для установки службы нужен администратор.
 
@@ -18,6 +18,8 @@ Mac: перетащите Roundlane в Applications. Пакет подписан
 Выход: Cmd+Q на Mac, Ctrl+Q на Windows, затем код организатора.
 
 ## Исправления и проверки
+
+[Раздельное восстановление кода и тестового ввода](docs/improvements-2026-10-16.md). Автоматические проверки компонентов выполняются в GitHub Actions.
 
 Сохранение кода Ace/cpp.sh и исходника с тестовым вводом Codeforces; восстановление закрытых вкладок и вкладок после перезапуска; захват последних изменений при закрытии; приоритет актуальных настроек; отклонение некорректных параметров запуска до начала экзамена. На Mac закрытие вкладки — Cmd+W; Ctrl+W остаётся доступным для редактирования текста.
 
@@ -31,8 +33,8 @@ Mac: перетащите Roundlane в Applications. Пакет подписан
 
 В репозитории находятся исходники Mac и Windows, изменения Roundlane, скрипты, тесты и документация. Исходные архивы в Releases дополнительно содержат предварительно собранные библиотеки Mac; объёмные vendor frameworks в Git не дублируются.
 
-- [Полный исходный комплект Mac](https://github.com/nazkari86-lab/roundlane/releases/download/v3.9.4/RoundlaneMacSource.zip)
-- [Исходный комплект Windows](https://github.com/nazkari86-lab/roundlane/releases/download/v3.9.4/RoundlaneWindowsSource.zip)
+- [Полный исходный комплект Mac](https://github.com/nazkari86-lab/roundlane/releases/latest/download/RoundlaneMacSource.zip)
+- [Исходный комплект Windows](https://github.com/nazkari86-lab/roundlane/releases/latest/download/RoundlaneWindowsSource.zip)
 
 Инструменты сборки: [Mac](scripts/build-native-mac.sh), [Windows](scripts/build-native-windows.ps1), [Windows установщик](win-app/build.sh). Для собственного выпуска понадобятся собственные ключи подписи и настройки соревнования. Приватный ключ этого выпуска, код выхода и пароли участников в репозиторий и Releases не включены.
 
