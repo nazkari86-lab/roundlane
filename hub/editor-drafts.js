@@ -1,7 +1,7 @@
 // Roundlane editor adapter, MPL-2.0. Reads source editors and custom-test input only.
 (() => {
-  if (window.__roundlaneEditor?.version === 1) return;
-  let edited = false;
+  if (window.__roundlaneEditor?.version === 2) return;
+  const edited = { code: false, input: false };
   let applying = false;
   const watched = new WeakSet();
   function watch(doc) {
@@ -10,8 +10,9 @@
     const change = event => {
       if (applying) return;
       const e = event.target;
-      if (doc !== document || e?.closest?.('.ace_editor,.CodeMirror') ||
-          e?.id === 'sourceCodeTextarea' || ['source', 'sourceCode', 'input'].includes(e?.name)) edited = true;
+      if (doc === document && e?.name === 'input') edited.input = true;
+      else if (doc !== document || e?.closest?.('.ace_editor,.CodeMirror') ||
+          e?.id === 'sourceCodeTextarea' || ['source', 'sourceCode'].includes(e?.name)) edited.code = true;
     };
     doc.addEventListener('beforeinput', change, true);
     doc.addEventListener('input', change, true);
@@ -21,7 +22,9 @@
     watch(document);
     const aceNode = document.querySelector('.ace_editor');
     if (aceNode && window.ace) {
-      const ace = window.ace.edit(aceNode);
+      // ace.edit() would create a new editor and clear a container not ready yet.
+      const ace = aceNode.env?.editor;
+      if (!ace || typeof ace.getValue !== 'function') return null;
       return { get: () => ace.getValue(), set: s => ace.setValue(s, -1) };
     }
     const mirror = document.querySelector('.CodeMirror')?.CodeMirror;
@@ -29,8 +32,10 @@
     const source = document.getElementById('sourceCodeTextarea');
     if (source && window.editAreaLoader) {
       const frame = document.getElementById('frame_sourceCodeTextarea');
-      try { if (frame?.contentDocument) watch(frame.contentDocument); } catch {}
-      if (!window.editAreaLoader.getValue('sourceCodeTextarea')?.length && frame && !frame.contentDocument?.body) return null;
+      try {
+        if (frame?.contentDocument) watch(frame.contentDocument);
+        if (frame && !frame.contentDocument?.body) return null;
+      } catch { return null; }
       return { get: () => window.editAreaLoader.getValue('sourceCodeTextarea'), set: s => window.editAreaLoader.setValue('sourceCodeTextarea', s) };
     }
     const plain = source || document.querySelector('textarea[name="source"],textarea[name="sourceCode"]');
@@ -50,16 +55,15 @@
     try {
       const e = editor();
       if (!e || typeof e.get() !== 'string') return 'waiting';
-      if (edited) return 'edited';
       if (typeof data?.code !== 'string' || data.code.length > 262144) return 'invalid';
       applying = true;
-      e.set(data.code);
+      if (!edited.code) e.set(data.code);
       const input = document.querySelector('textarea[name="input"]');
-      if (input && typeof data.input === 'string' && data.input.length <= 131072) input.value = data.input;
-      return 'applied';
+      if (!edited.input && input && typeof data.input === 'string' && data.input.length <= 131072) input.value = data.input;
+      return edited.code || edited.input ? 'edited' : 'applied';
     } catch { return 'waiting'; }
     finally { applying = false; }
   }
   watch(document);
-  window.__roundlaneEditor = Object.freeze({ version: 1, capture, restore });
+  window.__roundlaneEditor = Object.freeze({ version: 2, capture, restore });
 })();

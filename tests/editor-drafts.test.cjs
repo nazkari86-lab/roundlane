@@ -14,11 +14,14 @@ function setup(kind, code = '// original') {
     getElementById(id) { return id === 'sourceCodeTextarea' && ['area', 'plain'].includes(kind) ? node : null; }
   };
   const window = {};
-  if (kind === 'ace') window.ace = { edit: () => ({ getValue: () => buffer, setValue: v => { buffer = v; } }) };
+  if (kind === 'ace') {
+    node.env = { editor: { getValue: () => buffer, setValue: v => { buffer = v; } } };
+    window.ace = { edit: () => { throw new Error('Reader must not create editors'); } };
+  }
   if (kind === 'area') window.editAreaLoader = { getValue: () => buffer, setValue: (id, v) => { buffer = v; } };
   const context = vm.createContext({ window, document, Event: class {} });
   vm.runInContext(script, context);
-  return { adapter: window.__roundlaneEditor, input, handlers, document, context };
+  return { adapter: window.__roundlaneEditor, input, handlers, document, context, node };
 }
 for (const kind of ['ace', 'mirror', 'area', 'plain']) test(`${kind}: source and input survive capture/restore`, () => {
   const a = setup(kind, 'int main(){ /* Привет </script> */ }');
@@ -46,4 +49,47 @@ test('password and unrelated form fields are not captured', () => {
   const a = setup('missing');
   a.handlers.input({ target: { name: 'password', value: 'secret', closest: () => false } });
   assert.equal(a.adapter.capture(), null);
+});
+
+test('editing only test input preserves that input but restores saved source', () => {
+  const a = setup('ace', '');
+  a.input.value = 'new input';
+  a.handlers.input({ target: a.input });
+  a.adapter.restore({ code: 'saved source', input: 'old input' });
+  assert.equal(a.adapter.capture().code, 'saved source');
+  assert.equal(a.adapter.capture().input, 'new input');
+});
+
+test('editing only source preserves that source but restores saved test input', () => {
+  const a = setup('ace', 'new source');
+  a.handlers.input({ target: { closest: () => true } });
+  a.adapter.restore({ code: 'old source', input: 'saved input' });
+  assert.equal(a.adapter.capture().code, 'new source');
+  assert.equal(a.adapter.capture().input, 'saved input');
+});
+
+test('an Ace container without an initialized editor is left untouched', () => {
+  const a = setup('ace');
+  delete a.node.env;
+  assert.equal(a.adapter.capture(), null);
+  assert.equal(a.adapter.restore({ code: 'saved' }), 'waiting');
+});
+
+test('editArea waits for its iframe even if its backing textarea has old content', () => {
+  const a = setup('area', 'backing textarea');
+  const original = a.document.getElementById;
+  const frame = { contentDocument: null };
+  a.document.getElementById = id => id === 'frame_sourceCodeTextarea' ? frame : original(id);
+  assert.equal(a.adapter.capture(), null);
+  assert.equal(a.adapter.restore({ code: 'saved' }), 'waiting');
+  frame.contentDocument = { body: {}, addEventListener() {} };
+  assert.equal(a.adapter.restore({ code: 'saved' }), 'applied');
+  assert.equal(a.adapter.capture().code, 'saved');
+});
+
+test('invalid source payload cannot partially replace the input', () => {
+  const a = setup('ace', 'source');
+  assert.equal(a.adapter.restore({ code: 123, input: 'wrong' }), 'invalid');
+  assert.equal(a.adapter.capture().code, 'source');
+  assert.equal(a.adapter.capture().input, '2 3');
 });

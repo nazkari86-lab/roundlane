@@ -14,8 +14,8 @@ python3 - "$app_path/Contents/Info.plist" <<'PY'
 import sys,plistlib
 from pathlib import Path
 p=Path(sys.argv[1]);d=plistlib.loads(p.read_bytes());d['CFBundleExecutable']='RoundlaneLauncher'
-d['CFBundleShortVersionString']='3.9.4'
-d['CFBundleVersion']='20261014.6'
+d['CFBundleShortVersionString']='3.9.5'
+d['CFBundleVersion']='20261016.1'
 d['CFBundleDocumentTypes']=[t for t in d.get('CFBundleDocumentTypes',[]) if t.get('CFBundleTypeName')!='Roundlane Competition']+[{'CFBundleTypeName':'Roundlane Competition','CFBundleTypeRole':'Viewer','LSHandlerRank':'Owner','LSItemContentTypes':['local.roundlane.competition'],'CFBundleTypeExtensions':['roundlane']}]
 d['UTExportedTypeDeclarations']=[{'UTTypeIdentifier':'local.roundlane.competition','UTTypeDescription':'Roundlane Competition','UTTypeConformsTo':['public.json'],'UTTypeTagSpecification':{'public.filename-extension':['roundlane']}}]
 p.write_bytes(plistlib.dumps(d))

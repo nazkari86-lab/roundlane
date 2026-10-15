@@ -1,0 +1,42 @@
+name: Component checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  components:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: win-app/go.mod
+          cache-dependency-path: win-app/go.sum
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: '8.0.x'
+      - name: Editor and hub regressions
+        run: node --test tests/editor-drafts.test.cjs tests/hub.test.cjs
+      - name: Settings, URL filter and startup checks
+        working-directory: win-app
+        run: go test ./core
+      - name: Windows launcher cross compilation
+        working-directory: win-app
+        env:
+          GOOS: windows
+          GOARCH: amd64
+          CGO_ENABLED: '0'
+        run: go build -o "$RUNNER_TEMP/Roundlane-launcher.exe" ./cmd/app
+      - name: Tab persistence fixtures
+        run: dotnet run --project tests/tabs-workspace --configuration Release
+      - name: Exit and recovery flow fixtures
+        run: dotnet run --project tests/windows-client-flow --configuration Release
