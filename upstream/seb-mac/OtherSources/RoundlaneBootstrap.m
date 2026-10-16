@@ -1,3 +1,4 @@
+#import "RoundlaneTabs.h"
 // Roundlane additions, licensed under the Mozilla Public License 2.0.
 #import "RoundlaneBootstrap.h"
 #import "RoundlaneMacGuard.h"
@@ -55,7 +56,31 @@ static NSArray *contestRules(NSString *contest) {
         [NSString stringWithFormat:@"^blob:https://%@/",host],
         @"^https://assets\\.codeforces\\.com/",
         @"^https://challenges\\.cloudflare\\.com/",
-        @"^https://cpp\\.sh/"
+        @"^https://www\\.onlinegdb\\.com/([?#].*)?$",
+        @"^https://onlinegdb\\.com/([?#].*)?$",
+        @"^https://www\\.onlinegdb\\.com/online_c[+][+]_compiler([?#].*)?$",
+        @"^https://www\\.onlinegdb\\.com/public/",
+        @"^https://www\\.onlinegdb\\.com/socket\\.io/",
+        @"^wss://www\\.onlinegdb\\.com/socket\\.io/",
+        @"^https://in2\\.onlinegdb\\.com/socket\\.io/",
+        @"^wss://in2\\.onlinegdb\\.com/socket\\.io/",
+        @"^https://www\\.onlinegdb\\.com/beautify([?#].*)?$",
+        @"^blob:https://www\\.onlinegdb\\.com/",
+        @"^https://stg\\.html-load\\.com/loader\\.min\\.js([?#].*)?$",
+        @"^https://www\\.onlinegdb\\.com/cdn-cgi/challenge-platform/",
+        @"^https://cdn4\\.buysellads\\.net/pub/onlinegdb\\.js([?#].*)?$",
+        @"^https://m\\.servedby-buysellads\\.com/monetization\\.js([?#].*)?$",
+        @"^https://cdn\\.carbonads\\.com/carbon\\.js([?#].*)?$",
+        @"^https://srv\\.buysellads\\.com/ads/",
+        @"^https://srv\\.carbonads\\.net/ads/",
+        @"^https://cdn4\\.buysellads\\.net/uu/",
+        @"^https://check-adblock\\.buysellads\\.net/i\\.gif([?#].*)?$",
+        @"^https://pagead2\\.googlesyndication\\.com/pagead/js/adsbygoogle\\.js([?#].*)?$",
+        @"^https://html-load\\.com/loader\\.min\\.js([?#].*)?$",
+        @"^https://cdnjs\\.cloudflare\\.com/ajax/libs/bootstrap-select/1\\.12\\.4/js/bootstrap-select\\.min\\.js([?#].*)?$",
+        @"^https://cdnjs\\.cloudflare\\.com/ajax/libs/bootstrap-select/1\\.12\\.4/css/bootstrap-select\\.min\\.css([?#].*)?$",
+        @"^https://unpkg\\.com/react@17[.0-9]*/umd/react\\.production\\.min\\.js([?#].*)?$",
+        @"^https://unpkg\\.com/react-dom@17[.0-9]*/umd/react-dom\\.production\\.min\\.js([?#].*)?$"
     ]];
     // WebKit's content rule compiler does not support regex disjunctions.
     // Participant AJAX routes live under the group, outside /contest/.
@@ -194,7 +219,7 @@ static NSMutableDictionary *profile(NSString *code) {
 }
 
 // A disposable browser for organizer checks. It never calls prepare or SEBController.
-@interface RoundlaneBrowserCheck : NSObject <WKNavigationDelegate, WKUIDelegate, NSWindowDelegate, NSApplicationDelegate>
+@interface RoundlaneBrowserCheck : NSObject <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, NSWindowDelegate, NSApplicationDelegate>
 @property NSWindow *window;
 @property WKWebView *web;
 @property NSTextField *status;
@@ -203,6 +228,12 @@ static NSMutableDictionary *profile(NSString *code) {
 @end
 
 @implementation RoundlaneBrowserCheck
+- (void)userContentController:(WKUserContentController *)controller didReceiveScriptMessage:(WKScriptMessage *)message {
+    if([message.body isKindOfClass:NSString.class]) {
+        NSURLComponents *url=[NSURLComponents componentsWithString:message.body];url.query=nil;url.fragment=nil;
+        fprintf(stderr,"Roundlane resource failed: %s\n",url.string.UTF8String);fflush(stderr);
+    }
+}
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {return NO;}
 - (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)files {[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];}
 - (BOOL)allowed:(NSURL *)url {
@@ -218,10 +249,7 @@ static NSMutableDictionary *profile(NSString *code) {
 - (void)reload:(id)sender { [self.web reload]; }
 - (void)codeforces:(id)sender { [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.contestURL]]]; }
 - (void)compiler:(id)sender {
-    NSString *source = [NSString stringWithContentsOfURL:[resources() URLByAppendingPathComponent:@"starter.cpp"] encoding:NSUTF8StringEncoding error:nil];
-    NSURLComponents *url = [NSURLComponents componentsWithString:@"https://cpp.sh/"];
-    url.queryItems = @[[NSURLQueryItem queryItemWithName:@"source" value:source ?: @""]];
-    [self.web loadRequest:[NSURLRequest requestWithURL:url.URL]];
+    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.onlinegdb.com/?new_lang=c%2B%2B20&sidebar=no"]]];
 }
 - (void)webView:(WKWebView *)web decidePolicyForNavigationAction:(WKNavigationAction *)action decisionHandler:(void (^)(WKNavigationActionPolicy))decision {
     // Cloudflare builds a local srcdoc iframe; it makes no external navigation.
@@ -241,6 +269,7 @@ static NSMutableDictionary *profile(NSString *code) {
 }
 - (void)webView:(WKWebView *)web didStartProvisionalNavigation:(WKNavigation *)navigation { self.status.stringValue = @"Загрузка сайта…"; }
 - (void)webView:(WKWebView *)web didFinishNavigation:(WKNavigation *)navigation {
+    [web evaluateJavaScript:[RoundlaneTabs editorBridge] completionHandler:nil];
     self.status.stringValue = @"Страница загружена. Проверьте вход и работу сайта";
 }
 - (void)webView:(WKWebView *)web didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
@@ -268,6 +297,9 @@ static NSMutableDictionary *profile(NSString *code) {
     self.status = [NSTextField labelWithString:@"Подготовка фильтра…"]; self.status.accessibilityLabel = @"Результат проверки сайта";
     self.status.font = [NSFont systemFontOfSize:12]; self.status.textColor = NSColor.secondaryLabelColor;
     WKWebViewConfiguration *config = [WKWebViewConfiguration new]; config.websiteDataStore = WKWebsiteDataStore.nonPersistentDataStore;
+    [config.userContentController addScriptMessageHandler:self name:@"roundlaneDiagnostics"];
+    NSString *diagnostic=@"addEventListener('error',e=>{const s=e.target?.src||e.target?.href;if(s)window.webkit.messageHandlers.roundlaneDiagnostics.postMessage(s)},true);";
+    [config.userContentController addUserScript:[[WKUserScript alloc]initWithSource:diagnostic injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO]];
     self.web = [[WKWebView alloc] initWithFrame:NSZeroRect configuration:config]; self.web.navigationDelegate = self; self.web.UIDelegate = self;
     for (NSView *v in @[bar,self.status,self.web]) { v.translatesAutoresizingMaskIntoConstraints = NO; [view addSubview:v]; }
     [NSLayoutConstraint activateConstraints:@[
@@ -677,7 +709,9 @@ static NSMutableDictionary *profile(NSString *code) {
         [testContest stringByAppendingString:@"/standings/groupmates/true"]:@YES,
         @"https://roundlane723396.contest.codeforces.com/enter?back=%2Fgroup%2Ftqy1SBMbAa":@YES,
         @"https://roundlane723396.contest.codeforces.com/group/tqy1SBMbAa/contests":@YES,
-        @"https://cpp.sh/":@YES,
+        @"https://www.onlinegdb.com/":@YES,
+        @"https://www.onlinegdb.com/askai":@NO,
+        @"wss://www.onlinegdb.com/socket.io/?transport=websocket":@YES,
         @"https://codeforces.com/":@NO,
         @"https://codeforces.com/problemset":@NO,
         @"https://roundlane723396.contest.codeforces.com/group/tqy1SBMbAa/contest/723397":@NO,

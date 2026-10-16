@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Browser
     {
         internal const int MaximumTabs = 24;
         private const int MaximumStateBytes = 64 * 1024 * 1024;
-        private sealed class Draft { public string Code; public string Input; }
+        private sealed class Draft { public string Code; public string Input; public string Project; }
         private readonly ConcurrentDictionary<int, BrowserWindow> windows = new ConcurrentDictionary<int, BrowserWindow>();
         private readonly Dictionary<int, Dictionary<string, Draft>> drafts = new Dictionary<int, Dictionary<string, Draft>>();
         private readonly Dictionary<int, HashSet<string>> pendingRestore = new Dictionary<int, HashSet<string>>();
@@ -46,7 +46,12 @@ namespace SafeExamBrowser.Browser
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Roundlane.EditorDrafts.js"))
             using (var reader = stream == null ? null : new StreamReader(stream, Encoding.UTF8))
-                return reader?.ReadToEnd() ?? "";
+                {
+                    var script = reader?.ReadToEnd() ?? "";
+                    using (var source = Assembly.GetExecutingAssembly().GetManifestResourceStream("Roundlane.StarterCpp"))
+                    using (var text = source == null ? null : new StreamReader(source, Encoding.UTF8))
+                        return script + "\nwindow.__roundlaneEditor.initialize(" + JsonConvert.SerializeObject(text?.ReadToEnd() ?? "") + ");";
+                }
         }
         internal RoundlaneWorkspace(string startUrl, Func<string, BrowserWindow> open)
         {
@@ -70,7 +75,7 @@ namespace SafeExamBrowser.Browser
         internal void Refresh()
         {
             var items = windows.Values.OrderBy(w => w.Id).ToArray();
-            var tabs = items.Select(w => new RoundlaneBrowserTab { Id = w.Id, Title = w.IsMainWindow ? "Roundlane" : (Uri.TryCreate(w.Url, UriKind.Absolute, out var uri) && uri.Host == "cpp.sh" ? "C++" : (string.IsNullOrWhiteSpace(w.Title) ? "Новая вкладка" : w.Title)), Selected = w.Id == selected, CanClose = !w.IsMainWindow }).ToArray();
+            var tabs = items.Select(w => new RoundlaneBrowserTab { Id = w.Id, Title = w.IsMainWindow ? "Roundlane" : (Uri.TryCreate(w.Url, UriKind.Absolute, out var uri) && uri.Host == "www.onlinegdb.com" ? "C++" : (string.IsNullOrWhiteSpace(w.Title) ? "Новая вкладка" : w.Title)), Selected = w.Id == selected, CanClose = !w.IsMainWindow }).ToArray();
             foreach (var w in items) w.UpdateTabs(tabs);
         }
         internal void Remove(int id)
@@ -86,7 +91,7 @@ namespace SafeExamBrowser.Browser
         {
             var url = Sanitize(w.Url, contest);
             if (url == null && restoreUrls.TryGetValue(w.Id, out var target)) url = Sanitize(target, contest);
-            if (url != null && drafts.TryGetValue(w.Id, out var values) && values.ContainsKey("https://cpp.sh/") && new Uri(url).Host == "cpp.sh") return "https://cpp.sh/";
+            if (url != null && drafts.TryGetValue(w.Id, out var values) && values.ContainsKey("https://www.onlinegdb.com/") && new Uri(url).Host == "www.onlinegdb.com") return "https://www.onlinegdb.com/";
             return url;
         }
         internal void Close(int id)
@@ -124,22 +129,28 @@ namespace SafeExamBrowser.Browser
         internal static string Sanitize(string value, string contest)
         {
             if (value == null || value.Length > 1048576 || !Uri.TryCreate(value, UriKind.Absolute, out var uri) || uri.Scheme != "https" || !string.IsNullOrEmpty(uri.UserInfo) || !uri.IsDefaultPort) return null;
-            if (uri.Host == "cpp.sh" && uri.AbsolutePath == "/") {
-                var source = uri.Query.TrimStart('?').Split('&').FirstOrDefault(q => q.StartsWith("source="));
-                return "https://cpp.sh/" + (source != null && source.Length <= 1048576 ? "?" + source : "");
-            }
+            if (uri.Host == "www.onlinegdb.com" && (uri.AbsolutePath == "/" || uri.AbsolutePath == "/online_c++_compiler")) return "https://www.onlinegdb.com/";
             if (!Uri.TryCreate(contest, UriKind.Absolute, out var basis) || uri.Host != basis.Host) return null;
             var path = basis.AbsolutePath.TrimEnd('/');
             if (uri.AbsolutePath != path && !uri.AbsolutePath.StartsWith(path + "/", StringComparison.Ordinal)) return null;
             var query = uri.Query.TrimStart('?').Split('&').Where(q => q.StartsWith("locale=") || q.StartsWith("mobile=")).ToArray();
             return uri.GetLeftPart(UriPartial.Path) + (query.Length > 0 ? "?" + string.Join("&", query) : "");
         }
-        private static string WithDraft(string url, string draft) { return draft != null && draft.Length <= 262144 && new Uri(url).Host == "cpp.sh" ? "https://cpp.sh/?source=" + System.Net.WebUtility.UrlEncode(draft) : url; }
+
+        // Only persisted local state may migrate the retired compiler; navigation stays blocked.
+        private static bool LegacyCompiler(string value) => Uri.TryCreate(value, UriKind.Absolute, out var u) && u.Scheme == "https" && u.Host == "cpp.sh" && u.AbsolutePath == "/" && string.IsNullOrEmpty(u.UserInfo) && u.IsDefaultPort;
+        private static string StoredUrl(string value, string contest) => LegacyCompiler(value) ? "https://www.onlinegdb.com/" : Sanitize(value, contest);
+        private static string LegacySource(string value) {
+            if (!LegacyCompiler(value) || value.Length > 1048576) return null;
+            var item = new Uri(value).Query.TrimStart('?').Split('&').FirstOrDefault(q => q.StartsWith("source="));
+            if (item == null) return null;
+            var code = System.Net.WebUtility.UrlDecode(item.Substring(7)); return code.Length <= 262144 ? code : null;
+        }
         private string EditorUrl(string url)
         {
             var clean = Sanitize(url, contest); if (clean == null) return null;
             var u = new Uri(clean);
-            if (u.Host == "cpp.sh") return "https://cpp.sh/";
+            if (u.Host == "www.onlinegdb.com") return "https://www.onlinegdb.com/";
             var basis = new Uri(contest).GetLeftPart(UriPartial.Path).TrimEnd('/');
             var path = u.GetLeftPart(UriPartial.Path);
             return path == basis + "/submit" || path == basis + "/customtest" ? path : null;
@@ -172,7 +183,7 @@ namespace SafeExamBrowser.Browser
             }
             if (skip) { completed?.Invoke(); return; }
             string script = Bridge + "\nJSON.stringify(window.__roundlaneEditor.capture())";
-            if (wanted != null) script = Bridge + "\n(()=>{const s=window.__roundlaneEditor.restore(" + JsonConvert.SerializeObject(new { code = wanted.Code, input = wanted.Input }) + ");return s==='waiting'?null:JSON.stringify(window.__roundlaneEditor.capture());})()";
+            if (wanted != null) script = Bridge + "\n(()=>{const s=window.__roundlaneEditor.restore(" + JsonConvert.SerializeObject(new { code = wanted.Code, input = wanted.Input, project = wanted.Project }) + ");return s==='waiting'?null:JSON.stringify(window.__roundlaneEditor.capture());})()";
             w.Control.ExecuteJavaScript(script, result => {
                 lock (saveGate) {
                     reading.Remove(w.Id);
@@ -181,9 +192,9 @@ namespace SafeExamBrowser.Browser
                         if (result.Success && result.Result is string json && json.Length <= 4 * 1024 * 1024) {
                             var value = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                             if (value != null && value.TryGetValue("code", out var code) && code != null && code.Length <= 262144) {
-                                value.TryGetValue("input", out var input);
+                                value.TryGetValue("input", out var input); value.TryGetValue("project", out var project);
                                 if (!drafts.TryGetValue(w.Id, out var map)) drafts[w.Id] = map = new Dictionary<string, Draft>();
-                                map[key] = new Draft { Code = code, Input = input != null && input.Length <= 131072 ? input : null };
+                                map[key] = new Draft { Code = code, Input = input != null && input.Length <= 131072 ? input : null, Project = project != null && project.Length <= 1048576 ? project : null };
                                 if (pendingRestore.TryGetValue(w.Id, out var pending)) pending.Remove(key);
                                 restoreUrls.Remove(w.Id); WriteState();
                             }
@@ -203,14 +214,14 @@ namespace SafeExamBrowser.Browser
                 var root = doc.DocumentElement; if (root == null || root.Name != "workspace" || root.GetAttribute("contest") != contest) return;
                 foreach (XmlNode node in root.SelectNodes("tab")) {
                     if (windows.Count >= MaximumTabs) break;
-                    var url = Sanitize(node.Attributes?["url"]?.Value, contest); if (url == null) continue;
+                    var stored = node.Attributes?["url"]?.Value; var url = StoredUrl(stored, contest); if (url == null) continue;
                     var values = new Dictionary<string, Draft>();
                     foreach (XmlNode entry in node.SelectNodes("editor")) {
-                        var key = EditorUrl(entry.Attributes?["url"]?.Value); var code = entry.SelectSingleNode("code")?.InnerText; var input = entry.SelectSingleNode("input")?.InnerText;
-                        if (key != null && code != null && code.Length <= 262144) values[key] = new Draft { Code = code, Input = input?.Length <= 131072 ? input : null };
+                        var key = EditorUrl(StoredUrl(entry.Attributes?["url"]?.Value, contest)); var code = entry.SelectSingleNode("code")?.InnerText; var input = entry.SelectSingleNode("input")?.InnerText; var project = entry.SelectSingleNode("project")?.InnerText;
+                        if (key != null && code != null && code.Length <= 262144) values[key] = new Draft { Code = code, Input = input?.Length <= 131072 ? input : null, Project = project?.Length <= 1048576 ? project : null };
                     }
-                    var legacy = node.SelectSingleNode("draft")?.InnerText;
-                    if (legacy != null && legacy.Length <= 262144 && new Uri(url).Host == "cpp.sh") values["https://cpp.sh/"] = new Draft { Code = legacy };
+                    var legacy = node.SelectSingleNode("draft")?.InnerText ?? LegacySource(stored);
+                    if (legacy != null && legacy.Length <= 262144 && new Uri(url).Host == "www.onlinegdb.com" && !values.ContainsKey("https://www.onlinegdb.com/")) values["https://www.onlinegdb.com/"] = new Draft { Code = legacy };
                     OpenRecord(url, values);
                 }
                 if (int.TryParse(root.GetAttribute("active"), out var active)) { var items = windows.Keys.OrderBy(x => x).ToArray(); if (active >= 0 && active < items.Length) Select(items[active]); }
@@ -237,6 +248,7 @@ namespace SafeExamBrowser.Browser
                         if (drafts.TryGetValue(w.Id, out var map)) foreach (var pair in map) {
                             var editor = doc.CreateElement("editor"); editor.SetAttribute("url", pair.Key); tab.AppendChild(editor);
                             var code = doc.CreateElement("code"); code.InnerText = pair.Value.Code; editor.AppendChild(code);
+                            if (pair.Value.Project != null) { var project = doc.CreateElement("project"); project.InnerText = pair.Value.Project; editor.AppendChild(project); }
                             if (pair.Value.Input != null) { var input = doc.CreateElement("input"); input.InnerText = pair.Value.Input; editor.AppendChild(input); }
                         }
                     }

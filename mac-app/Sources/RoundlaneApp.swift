@@ -43,7 +43,7 @@ private enum Contest {
         } else if let problem = selfTest() {
             lines.append("Локальная страница: \(problem)")
         } else { lines.append("Локальная страница и шаблон C++: доступны") }
-        for host in ["codeforces.com", "cpp.sh"] {
+        for host in ["codeforces.com", "www.onlinegdb.com"] {
             let (_, status) = fetch(URL(string: "https://\(host)/")!)
             if let status {
                 lines.append("\(host): HTTP \(status)" + ((200..<300).contains(status) ? " — доступен" : " — проверьте в браузере"))

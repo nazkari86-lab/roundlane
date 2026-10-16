@@ -34,10 +34,9 @@ func escapedAttribute(_ text: String) -> String {
     text.replacingOccurrences(of: "&", with: "&amp;").replacingOccurrences(of: "\"", with: "&quot;")
         .replacingOccurrences(of: "<", with: "&lt;").replacingOccurrences(of: ">", with: "&gt;")
 }
-var compiler = URLComponents(string: "https://cpp.sh/")!
-compiler.queryItems = [URLQueryItem(name: "source", value: String(decoding: starter, as: UTF8.self))]
+let compiler = URL(string: "https://www.onlinegdb.com/?new_lang=c%2B%2B20&sidebar=no")!
 let page = Data(pageTemplate.replacingOccurrences(of: "__ROUNDLANE_GROUP_URL__", with: escapedAttribute(groupURL))
-    .replacingOccurrences(of: "__ROUNDLANE_COMPILER_URL__", with: escapedAttribute(compiler.url!.absoluteString)).utf8)
+    .replacingOccurrences(of: "__ROUNDLANE_COMPILER_URL__", with: escapedAttribute(compiler.absoluteString)).utf8)
 
 func sebIsRunning() -> Bool {
     if let parent = nativeParentPID {

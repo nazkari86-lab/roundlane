@@ -43,7 +43,7 @@ async function loadContest() {
     (async () => {
       const source = await resource('/starter.cpp');
       if (!source.trim()) throw new Error('Шаблон C++ пуст.');
-      enableLink(compilerLink, `https://cpp.sh/?source=${encodeURIComponent(source)}`);
+      enableLink(compilerLink, "https://www.onlinegdb.com/?new_lang=c%2B%2B20&sidebar=no");
     })()
   ]);
   const labels = ['Группа не загрузилась.', 'Шаблон C++ не загрузился.'];

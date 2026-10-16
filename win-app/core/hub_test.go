@@ -28,8 +28,8 @@ func TestHubLinksReadyWithoutScript(t *testing.T) {
 		t.Fatal("group link changed")
 	}
 	compiler, err := url.Parse(html.UnescapeString(string(links[1][1])))
-	if err != nil || compiler.Scheme != "https" || compiler.Host != "cpp.sh" || compiler.Query().Get("source") != string(starter) {
-		t.Fatal("starter lost in compiler link")
+	if err != nil || compiler.Scheme != "https" || compiler.Host != "www.onlinegdb.com" || compiler.Query().Get("new_lang") != "c++20" || compiler.Query().Has("source") {
+		t.Fatal("OnlineGDB C++20 link invalid")
 	}
 	if _, err = RenderHub(template, "https://evil.test/group/Test123", starter); err == nil {
 		t.Fatal("foreign group accepted")

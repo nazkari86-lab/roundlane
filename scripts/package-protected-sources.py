@@ -48,7 +48,7 @@ def package(name, paths):
 
 shared = [Path(p) for p in ['README.md','starter.cpp','competition.roundlane','mac-codeforces-cppsh-demo.seb']]
 shared += [Path('docs/participant-launch-2026-10-14.md'),Path('docs/white-screen-2026-10-14.md'),Path('docs/codeforces-run-2026-10-14.md'),Path('docs/filter-audit-2026-10-14.md'),Path('docs/reliability-2026-10-14.md')]
-shared += [Path('.github/workflows/checks.yml'),Path('tests/editor-drafts.test.cjs'),Path('tests/hub.test.cjs'),Path('docs/improvements-2026-10-16.md')]
+shared += [Path('.github/workflows/checks.yml'),Path('tests/editor-drafts.test.cjs'),Path('tests/hub.test.cjs'),Path('docs/improvements-2026-10-16.md'),Path('docs/onlinegdb-2026-10-16.md')]
 shared += list(walk('tests/tabs-workspace')) + [Path('docs/tabs-design-2026-10-13.md')]
 shared += list(walk('docs/security')) + list(walk('assets')) + list(walk('hub'))
 root = kit / 'upstream/seb-mac'

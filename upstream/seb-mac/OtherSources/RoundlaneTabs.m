@@ -11,7 +11,11 @@
 static const NSUInteger MaxTabs = 24;
 static NSString *EditorBridge(void) {
     static NSString *script; static dispatch_once_t once;
-    dispatch_once(&once, ^{ script=[NSString stringWithContentsOfURL:[NSBundle.mainBundle.resourceURL URLByAppendingPathComponent:@"Roundlane/hub/editor-drafts.js"] encoding:NSUTF8StringEncoding error:nil]; });
+    dispatch_once(&once, ^{ script=[NSString stringWithContentsOfURL:[NSBundle.mainBundle.resourceURL URLByAppendingPathComponent:@"Roundlane/hub/editor-drafts.js"] encoding:NSUTF8StringEncoding error:nil];
+        NSString *source=[NSString stringWithContentsOfURL:[NSBundle.mainBundle.resourceURL URLByAppendingPathComponent:@"Roundlane/starter.cpp"] encoding:NSUTF8StringEncoding error:nil] ?: @"";
+        NSData *data=[NSJSONSerialization dataWithJSONObject:@[source] options:0 error:nil];
+        script=[script stringByAppendingFormat:@"\nwindow.__roundlaneEditor.initialize(%@[0]);",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]];
+    });
     return script;
 }
 
@@ -50,11 +54,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     NSURLComponents *url=[NSURLComponents componentsWithString:value];
     NSURLComponents *base=[NSURLComponents componentsWithString:contest];
     if (![url.scheme isEqual:@"https"] || url.user || url.password || url.port) return nil;
-    if ([url.host isEqual:@"cpp.sh"] && (!url.path.length || [url.path isEqual:@"/"])) {
-        url.fragment=nil; NSMutableArray *query=[NSMutableArray new];
-        for (NSURLQueryItem *q in url.queryItems) if ([q.name isEqual:@"source"] && q.value.length<=262144) [query addObject:q];
-        url.queryItems=query.count?query:nil; return url.string;
-    }
+    if ([url.host isEqual:@"www.onlinegdb.com"] && (!url.path.length || [url.path isEqual:@"/"] || [url.path isEqual:@"/online_c++_compiler"])) return @"https://www.onlinegdb.com/";
     NSString *path=[base.path stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
     path=[@"/" stringByAppendingString:path];
     if (![url.host isEqual:base.host] || !([url.path isEqual:path] || [url.path hasPrefix:[path stringByAppendingString:@"/"]])) return nil;
@@ -62,6 +62,21 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     for (NSURLQueryItem *q in url.queryItems) if ([q.name isEqual:@"locale"] || [q.name isEqual:@"mobile"]) [query addObject:q];
     url.queryItems=query.count?query:nil; url.fragment=nil; return url.string;
 }
+
+// Legacy compiler URLs are accepted only while reading this machine's saved workspace.
+static BOOL LegacyCompiler(NSString *value) {
+    if(![value isKindOfClass:NSString.class] || value.length>1048576)return NO;
+    NSURLComponents *u=[NSURLComponents componentsWithString:value];
+    return [u.scheme isEqual:@"https"] && [u.host isEqual:@"cpp.sh"] && (!u.path.length || [u.path isEqual:@"/"]) && !u.user && !u.password && !u.port;
+}
+static NSString *LegacySource(NSString *value) {
+    if(!LegacyCompiler(value))return nil;
+    for(NSString *part in [[NSURLComponents componentsWithString:value].percentEncodedQuery componentsSeparatedByString:@"&"])if([part hasPrefix:@"source="]){
+        NSString *code=[[[part substringFromIndex:7] stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];return code.length<=262144?code:nil;
+    }
+    return nil;
+}
+static NSString *StoredURL(NSString *value, NSString *contest) {return LegacyCompiler(value)?@"https://www.onlinegdb.com/":SanitizedURL(value,contest);}
 
 // Isolated, ordinary windows exercise the same tabs without kiosk or network.
 @interface RLPreviewWebView : SEBAbstractWebView
@@ -86,9 +101,9 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     NSURLComponents *c=[NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];NSString *code=@"#include <iostream>\nusing namespace std;\n\nint main() {\n    return 0;\n}\n";
     for(NSURLQueryItem *q in c.queryItems)if([q.name isEqual:@"source"])code=q.value;
     NSData *json=[NSJSONSerialization dataWithJSONObject:@[code] options:0 error:nil];NSString *encoded=[[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"<" withString:@"\\u003c"];
-    NSString *html=[NSString stringWithFormat:@"<html><meta charset='utf-8'><style>body{font:16px system-ui;margin:24px}textarea{font:15px monospace;width:95%%;height:440px}</style><h3>%@</h3><textarea aria-label='Код C++'></textarea><div class='CodeMirror'></div><script>const e=document.querySelector('textarea');e.value=%@[0];document.querySelector('.CodeMirror').CodeMirror={getValue:()=>e.value,setValue:v=>{e.value=v}};</script></html>",[url.host isEqual:@"cpp.sh"]?@"C++":@"Страница соревнования",encoded];
+    NSString *html=[NSString stringWithFormat:@"<html><meta charset='utf-8'><style>body{font:16px system-ui;margin:24px}textarea{font:15px monospace;width:95%%;height:440px}</style><h3>%@</h3><textarea aria-label='Код C++'></textarea><div class='CodeMirror'></div><script>const e=document.querySelector('textarea');e.value=%@[0];document.querySelector('.CodeMirror').CodeMirror={getValue:()=>e.value,setValue:v=>{e.value=v}};</script></html>",[url.host isEqual:@"www.onlinegdb.com"]?@"C++":@"Страница соревнования",encoded];
     [native loadHTMLString:html baseURL:nil];
-    SEBBrowserOpenWindowWebView *item=[[SEBBrowserOpenWindowWebView alloc]initWithTitle:main?@"Roundlane":([url.host isEqual:@"cpp.sh"]?@"C++":url.lastPathComponent) action:nil keyEquivalent:@""];item.browserWindow=w;item.webView=v;[self.openBrowserWindowsWebViews addObject:item];[self.retainedWindows addObject:w];if(main){self.mainBrowserWindow=w;self.mainWebView=v;}
+    SEBBrowserOpenWindowWebView *item=[[SEBBrowserOpenWindowWebView alloc]initWithTitle:main?@"Roundlane":([url.host isEqual:@"www.onlinegdb.com"]?@"C++":url.lastPathComponent) action:nil keyEquivalent:@""];item.browserWindow=w;item.webView=v;[self.openBrowserWindowsWebViews addObject:item];[self.retainedWindows addObject:w];if(main){self.mainBrowserWindow=w;self.mainWebView=v;}
     [[RoundlaneTabs shared] attach:w controller:self];if(self.mainBrowserWindow && !main)[w setFrame:self.mainBrowserWindow.frame display:NO];else[w center];[self openWindowSelected:item];return v;
 }
 - (void)openWindowSelected:(SEBBrowserOpenWindowWebView *)item {self.activeBrowserWindow=item.browserWindow;[item.browserWindow makeKeyAndOrderFront:nil];[[RoundlaneTabs shared] refresh];}
@@ -96,6 +111,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
 @end
 
 @implementation RoundlaneTabs
++ (NSString *)editorBridge { return EditorBridge(); }
 + (instancetype)shared { static RoundlaneTabs *tabs; static dispatch_once_t once; dispatch_once(&once,^{tabs=[self new];}); return tabs; }
 - (instancetype)init { if ((self=[super init])) {self.strips=[NSMapTable weakToStrongObjectsMapTable];self.drafts=[NSMutableDictionary new];self.pendingRestores=[NSMutableDictionary new];self.restoreURLs=[NSMutableDictionary new];self.captureVersions=[NSMutableDictionary new];self.closing=[NSMutableSet new];self.closed=[NSMutableArray new];} return self; }
 - (NSArray *)items { return self.controller.openBrowserWindowsWebViews.copy ?: @[]; }
@@ -130,7 +146,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
         CGFloat x=0;NSUInteger index=0; NSRect selectedRect=NSZeroRect;
         for (SEBBrowserOpenWindowWebView *item in items) {
             BOOL main=item.webView.isMainBrowserWebView;BOOL selected=item.browserWindow==window;
-            NSString *title=main?@"Roundlane":([item.webView.url.host isEqual:@"cpp.sh"]?@"C++":item.title);
+            NSString *title=main?@"Roundlane":([item.webView.url.host isEqual:@"www.onlinegdb.com"]?@"C++":item.title);
             if (!title.length || [title isEqual:@"Untitled"])title=@"Новая вкладка";
             NSButton *button=[NSButton buttonWithTitle:title target:self action:@selector(selectTab:)];button.tag=index;button.bezelStyle=NSBezelStyleRounded;button.buttonType=NSButtonTypeToggle;button.state=selected?NSControlStateValueOn:NSControlStateValueOff;
             button.font=[NSFont systemFontOfSize:12 weight:selected?NSFontWeightSemibold:NSFontWeightRegular];button.frame=NSMakeRect(x,3,main?130:164,28);button.cell.lineBreakMode=NSLineBreakByTruncatingTail;button.toolTip=item.title;button.accessibilityLabel=[NSString stringWithFormat:@"Вкладка %lu: %@%@",(unsigned long)index+1,title,selected?@", выбрана":@""];
@@ -147,7 +163,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
 }
 - (NSString *)editorURL:(NSString *)value {
     NSString *clean=SanitizedURL(value,self.contest);if(!clean)return nil;
-    NSURL *url=[NSURL URLWithString:clean];if([url.host isEqual:@"cpp.sh"])return @"https://cpp.sh/";
+    NSURL *url=[NSURL URLWithString:clean];if([url.host isEqual:@"www.onlinegdb.com"])return @"https://www.onlinegdb.com/";
     NSString *path=[[[NSURL URLWithString:self.contest] path] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
     path=[@"/" stringByAppendingString:path];
     if(![url.path isEqual:[path stringByAppendingString:@"/submit"]] && ![url.path isEqual:[path stringByAppendingString:@"/customtest"]])return nil;
@@ -157,7 +173,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     NSValue *key=[NSValue valueWithNonretainedObject:item.webView];
     NSString *url=SanitizedURL(item.webView.url.absoluteString,self.contest) ?: self.restoreURLs[key];if(!url)return nil;
     NSDictionary *buffers=self.drafts[key];
-    if(buffers[@"https://cpp.sh/"] && [[NSURL URLWithString:url].host isEqual:@"cpp.sh"])url=@"https://cpp.sh/";
+    if(buffers[@"https://www.onlinegdb.com/"] && [[NSURL URLWithString:url].host isEqual:@"www.onlinegdb.com"])url=@"https://www.onlinegdb.com/";
     NSMutableDictionary *record=[@{@"url":url} mutableCopy];if(buffers.count)record[@"editorDrafts"]=[buffers copy];return record;
 }
 - (void)captureItem:(SEBBrowserOpenWindowWebView *)item completed:(dispatch_block_t)completed {
@@ -177,6 +193,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
             NSDictionary *value=[NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
             if([value isKindOfClass:NSDictionary.class] && [value[@"code"] isKindOfClass:NSString.class] && [value[@"code"] length]<=262144){
                 NSMutableDictionary *buffer=[@{@"code":value[@"code"]} mutableCopy];
+                if([value[@"project"] isKindOfClass:NSString.class] && [value[@"project"] length]<=1048576)buffer[@"project"]=value[@"project"];
                 if([value[@"input"] isKindOfClass:NSString.class] && [value[@"input"] length]<=131072)buffer[@"input"]=value[@"input"];
                 if(!strong.drafts[key])strong.drafts[key]=[NSMutableDictionary new];strong.drafts[key][location]=buffer;
                 [strong.pendingRestores[key] removeObject:location];[strong.restoreURLs removeObjectForKey:key];[strong writeState];
@@ -205,19 +222,21 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     if(key){[self.drafts removeObjectForKey:key];[self.pendingRestores removeObjectForKey:key];[self.restoreURLs removeObjectForKey:key];[self.captureVersions removeObjectForKey:key];[self.closing removeObject:key];}
     [self.strips removeObjectForKey:window];[self refresh];[self writeState];
 }
-- (NSURL *)urlFromRecord:(NSDictionary *)record {NSString *url=SanitizedURL(record[@"url"],self.contest);return url?[NSURL URLWithString:url]:nil;}
+- (NSURL *)urlFromRecord:(NSDictionary *)record {NSString *url=StoredURL(record[@"url"],self.contest);return url?[NSURL URLWithString:url]:nil;}
 - (void)openRecord:(NSDictionary *)record {
     NSURL *url=[self urlFromRecord:record];if(!url)return;
     SEBAbstractWebView *view=[self.controller openAndShowWebViewWithURL:url configuration:nil];if(!view)return;
     NSValue *key=[NSValue valueWithNonretainedObject:view];NSMutableDictionary *buffers=[NSMutableDictionary new];
     NSDictionary *saved=record[@"editorDrafts"];
     if([saved isKindOfClass:NSDictionary.class])for(NSString *candidate in saved){
-        NSString *location=[self editorURL:candidate];NSDictionary *buffer=saved[candidate];
+        NSString *location=[self editorURL:StoredURL(candidate,self.contest)];NSDictionary *buffer=saved[candidate];
         if(location && [buffer isKindOfClass:NSDictionary.class] && [buffer[@"code"] isKindOfClass:NSString.class] && [buffer[@"code"] length]<=262144){
-            NSMutableDictionary *clean=[@{@"code":buffer[@"code"]} mutableCopy];if([buffer[@"input"] isKindOfClass:NSString.class] && [buffer[@"input"] length]<=131072)clean[@"input"]=buffer[@"input"];buffers[location]=clean;
+            NSMutableDictionary *clean=[@{@"code":buffer[@"code"]} mutableCopy];if([buffer[@"project"] isKindOfClass:NSString.class] && [buffer[@"project"] length]<=1048576)clean[@"project"]=buffer[@"project"];if([buffer[@"input"] isKindOfClass:NSString.class] && [buffer[@"input"] length]<=131072)clean[@"input"]=buffer[@"input"];buffers[location]=clean;
         }
     }
-    if([record[@"draft"] isKindOfClass:NSString.class] && [record[@"draft"] length]<=262144 && [url.host isEqual:@"cpp.sh"])buffers[@"https://cpp.sh/"]=@{@"code":record[@"draft"]};
+    NSString *legacy=[record[@"draft"] isKindOfClass:NSString.class]?record[@"draft"]:nil;
+    if(!legacy)legacy=LegacySource(record[@"url"]);
+    if(legacy && legacy.length<=262144 && [url.host isEqual:@"www.onlinegdb.com"] && !buffers[@"https://www.onlinegdb.com/"])buffers[@"https://www.onlinegdb.com/"]=@{@"code":legacy};
     self.drafts[key]=buffers;self.pendingRestores[key]=[NSMutableSet setWithArray:buffers.allKeys];self.restoreURLs[key]=url.absoluteString;
     [self pageLoaded:view];
 }
@@ -271,10 +290,10 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     checks[@"editor_bridge"]=@(EditorBridge().length>100 && [EditorBridge() containsString:@"window.ace"]);
     NSString *filtered=SanitizedURL([base stringByAppendingString:@"/my?csrf_token=secret&locale=ru"],base);
     checks[@"contest_page"]=@(filtered!=nil);checks[@"auth_removed"]=@([filtered isEqual:[base stringByAppendingString:@"/my?locale=ru"]]);
-    NSUInteger i=0;for(NSString *url in @[@"https://google.com/",@"https://roundlane723396.contest.codeforces.com/enter?password=x",@"https://roundlane723396.contest.codeforces.com/group/tqy1SBMbAa/contest/723397",@"https://cpp.sh@evil.test/",@"file:///tmp/test"]){checks[[NSString stringWithFormat:@"forbidden_%lu",(unsigned long)++i]]=@(SanitizedURL(url,base)==nil);}
-    NSString *compiler=SanitizedURL(@"https://cpp.sh/?source=int%20main%28%29%7B%7D&token=secret",base);
-    NSArray *query=[NSURLComponents componentsWithString:compiler].queryItems;
-    checks[@"compiler_source"]=@(query.count==1 && [((NSURLQueryItem *)query.firstObject).value isEqual:@"int main(){}"]);
+    NSUInteger i=0;for(NSString *url in @[@"https://google.com/",@"https://roundlane723396.contest.codeforces.com/enter?password=x",@"https://roundlane723396.contest.codeforces.com/group/tqy1SBMbAa/contest/723397",@"https://www.onlinegdb.com@evil.test/",@"file:///tmp/test"]){checks[[NSString stringWithFormat:@"forbidden_%lu",(unsigned long)++i]]=@(SanitizedURL(url,base)==nil);}
+    NSString *compiler=SanitizedURL(@"https://www.onlinegdb.com/?source=int%20main%28%29%7B%7D&token=secret",base);
+    checks[@"legacy_migration"]=@([StoredURL(@"https://cpp.sh/?source=a%2Bb+c",base) isEqual:@"https://www.onlinegdb.com/"] && [LegacySource(@"https://cpp.sh/?source=a%2Bb+c") isEqual:@"a+b c"] && SanitizedURL(@"https://cpp.sh/",base)==nil);
+    checks[@"compiler_url"]=@([compiler isEqual:@"https://www.onlinegdb.com/"]);
     BOOL ok=YES;for(NSNumber *passed in checks.allValues)ok=ok&&passed.boolValue;
     NSData *data=[NSJSONSerialization dataWithJSONObject:@{@"tabs_check":ok?@"passed":@"failed",@"checks":checks,@"exam_started":@NO} options:0 error:nil];fwrite(data.bytes,1,data.length,stdout);fputs("\n",stdout);return ok?0:1;
 }
@@ -286,7 +305,7 @@ static NSString *SanitizedURL(NSString *value, NSString *contest) {
     __weak RoundlaneTabs *weak=tabs;tabs.keys=[NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent *(NSEvent *e){if((e.modifierFlags&NSEventModifierFlagCommand)&&([e.charactersIgnoringModifiers.lowercaseString isEqual:@"q"] || e.keyCode==12)){[tabs finish];[NSApp stop:nil];return nil;}return [weak handleKey:e]?nil:e;}];
     tabs.timer=[NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer *timer){[weak save];}];
     [browser openAndShowWebViewWithURL:browser.startURL configuration:nil];[tabs restore];
-    if(browser.openBrowserWindowsWebViews.count==1){[browser openAndShowWebViewWithURL:[NSURL URLWithString:[tabs.contest stringByAppendingString:@"/problem/A"]] configuration:nil];[browser openAndShowWebViewWithURL:[NSURL URLWithString:@"https://cpp.sh/"] configuration:nil];}
+    if(browser.openBrowserWindowsWebViews.count==1){[browser openAndShowWebViewWithURL:[NSURL URLWithString:[tabs.contest stringByAppendingString:@"/problem/A"]] configuration:nil];[browser openAndShowWebViewWithURL:[NSURL URLWithString:@"https://www.onlinegdb.com/"] configuration:nil];}
     [NSApp activateIgnoringOtherApps:YES];[NSApp run];return 0;
 }
 @end

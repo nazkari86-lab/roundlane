@@ -3,6 +3,7 @@
 @class SEBOSXBrowserController, SEBBrowserWindow;
 @interface RoundlaneTabs : NSObject
 + (instancetype)shared;
++ (NSString *)editorBridge;
 + (int)diagnostic;
 + (int)preview;
 - (void)attach:(SEBBrowserWindow *)window controller:(SEBOSXBrowserController *)controller;

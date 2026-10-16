@@ -135,7 +135,7 @@ Section "Roundlane"
   WriteRegStr HKLM "Software\Classes\Roundlane.Competition\shell\open\command" "" '$\"$INSTDIR\Roundlane.exe$\" --settings $\"%1$\"'
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Roundlane" "DisplayName" "Roundlane"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Roundlane" "UninstallString" '$\"$INSTDIR\Uninstall.exe$\"'
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Roundlane" "DisplayVersion" "3.0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Roundlane" "DisplayVersion" "3.10.0"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Roundlane" "DisplayIcon" "$INSTDIR\Roundlane.exe"
 SectionEnd
 

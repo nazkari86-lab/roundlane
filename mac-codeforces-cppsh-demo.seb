@@ -2,18 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>originatorVersion</key>
-	<string>SEB_OSX_3.7.1</string>
-	<key>sebConfigPurpose</key>
-	<integer>0</integer>
-	<key>startURL</key>
-	<string>http://127.0.0.1:18765/</string>
-	<key>allowQuit</key>
-	<true/>
-	<key>hashedQuitPassword</key>
-	<string>03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4</string>
-	<key>allowPreferencesWindow</key>
-	<false/>
 	<key>URLFilterEnable</key>
 	<true/>
 	<key>URLFilterEnableContentFilter</key>
@@ -21,95 +9,347 @@
 	<key>URLFilterRules</key>
 	<array>
 		<dict>
-			<key>active</key>
-			<true/>
 			<key>action</key>
 			<integer>1</integer>
-			<key>regex</key>
+			<key>active</key>
 			<true/>
 			<key>expression</key>
 			<string>^http://127\.0\.0\.1:18765/(?:app\.js)?$</string>
+			<key>regex</key>
+			<true/>
 		</dict>
 		<dict>
-			<key>active</key>
-			<true/>
 			<key>action</key>
 			<integer>1</integer>
-			<key>regex</key>
+			<key>active</key>
 			<true/>
 			<key>expression</key>
 			<string>^https://codeforces\.com(?:/|$)</string>
+			<key>regex</key>
+			<true/>
 		</dict>
 		<dict>
-			<key>active</key>
-			<true/>
 			<key>action</key>
 			<integer>1</integer>
-			<key>regex</key>
+			<key>active</key>
 			<true/>
 			<key>expression</key>
 			<string>^https://assets\.codeforces\.com(?:/|$)</string>
+			<key>regex</key>
+			<true/>
 		</dict>
 		<dict>
-			<key>active</key>
-			<true/>
 			<key>action</key>
 			<integer>1</integer>
-			<key>regex</key>
+			<key>active</key>
 			<true/>
 			<key>expression</key>
 			<string>^https://challenges\.cloudflare\.com(?:/|$)</string>
-		</dict>
-		<dict>
-			<key>active</key>
-			<true/>
-			<key>action</key>
-			<integer>1</integer>
 			<key>regex</key>
 			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
 			<key>expression</key>
-			<string>^https://cpp\.sh(?:/|$)</string>
+			<string>^https://www\.onlinegdb\.com/([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://onlinegdb\.com/([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://www\.onlinegdb\.com/online_c[+][+]_compiler([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://www\.onlinegdb\.com/public/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://www\.onlinegdb\.com/socket\.io/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^wss://www\.onlinegdb\.com/socket\.io/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://in2\.onlinegdb\.com/socket\.io/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^wss://in2\.onlinegdb\.com/socket\.io/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://www\.onlinegdb\.com/beautify([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^blob:https://www\.onlinegdb\.com/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://cdnjs\.cloudflare\.com/ajax/libs/bootstrap-select/1\.12\.4/js/bootstrap-select\.min\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://cdnjs\.cloudflare\.com/ajax/libs/bootstrap-select/1\.12\.4/css/bootstrap-select\.min\.css([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://unpkg\.com/react@17[.0-9]*/umd/react\.production\.min\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://unpkg\.com/react-dom@17[.0-9]*/umd/react-dom\.production\.min\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://html-load\.com/loader\.min\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://stg\.html-load\.com/loader\.min\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://www\.onlinegdb\.com/cdn-cgi/challenge-platform/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://cdn4\.buysellads\.net/pub/onlinegdb\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://m\.servedby-buysellads\.com/monetization\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://cdn\.carbonads\.com/carbon\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://srv\.buysellads\.com/ads/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://srv\.carbonads\.net/ads/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://cdn4\.buysellads\.net/uu/</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://check-adblock\.buysellads\.net/i\.gif([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<integer>1</integer>
+			<key>active</key>
+			<true/>
+			<key>expression</key>
+			<string>^https://pagead2\.googlesyndication\.com/pagead/js/adsbygoogle\.js([?#].*)?$</string>
+			<key>regex</key>
+			<true/>
 		</dict>
 	</array>
-	<key>allowDownloads</key>
-	<false/>
-	<key>allowUploads</key>
-	<false/>
-	<key>downloadAndOpenSebConfig</key>
-	<false/>
-	<key>browserWindowAllowAddressBar</key>
-	<false/>
-	<key>newBrowserWindowAllowAddressBar</key>
-	<false/>
 	<key>allowBrowsingBackForward</key>
+	<true/>
+	<key>allowDownloads</key>
+	<true/>
+	<key>allowPreferencesWindow</key>
+	<false/>
+	<key>allowQuit</key>
 	<true/>
 	<key>allowScreenSharing</key>
 	<false/>
+	<key>allowUploads</key>
+	<true/>
 	<key>allowVirtualMachine</key>
 	<false/>
-	<key>showTaskBar</key>
+	<key>browserWindowAllowAddressBar</key>
+	<false/>
+	<key>downloadAndOpenSebConfig</key>
+	<false/>
+	<key>enableBrowserWindowToolbar</key>
 	<true/>
-	<key>restartExamUseStartURL</key>
+	<key>hashedQuitPassword</key>
+	<string>03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4</string>
+	<key>newBrowserWindowAllowAddressBar</key>
+	<false/>
+	<key>newBrowserWindowByLinkBlockForeign</key>
+	<false/>
+	<key>newBrowserWindowByLinkHeight</key>
+	<string>90%</string>
+	<key>newBrowserWindowByLinkPolicy</key>
+	<integer>2</integer>
+	<key>newBrowserWindowByLinkPositioning</key>
+	<integer>1</integer>
+	<key>newBrowserWindowByLinkWidth</key>
+	<string>90%</string>
+	<key>newBrowserWindowNavigation</key>
 	<true/>
+	<key>originatorVersion</key>
+	<string>SEB_OSX_3.7.1</string>
 	<key>restartExamPasswordProtected</key>
 	<false/>
+	<key>restartExamUseStartURL</key>
+	<true/>
+	<key>sebConfigPurpose</key>
+	<integer>0</integer>
 	<key>showQuitButton</key>
 	<true/>
 	<key>showReloadButton</key>
 	<true/>
-	<key>newBrowserWindowByLinkPolicy</key>
-	<integer>2</integer>
-	<key>newBrowserWindowByLinkBlockForeign</key>
-	<false/>
-	<key>newBrowserWindowByLinkWidth</key>
-	<string>90%</string>
-	<key>newBrowserWindowByLinkHeight</key>
-	<string>90%</string>
-	<key>newBrowserWindowByLinkPositioning</key>
-	<integer>1</integer>
-	<key>newBrowserWindowNavigation</key>
+	<key>showTaskBar</key>
 	<true/>
-	<key>enableBrowserWindowToolbar</key>
-	<true/>
+	<key>startURL</key>
+	<string>http://127.0.0.1:18765/</string>
 </dict>
 </plist>

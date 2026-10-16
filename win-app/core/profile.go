@@ -67,7 +67,31 @@ func AllowedForContest(contest string) ([]string, error) {
 		`^blob:https://` + regexp.QuoteMeta(u.Hostname()) + `/`,
 		`^https://assets\.codeforces\.com/`,
 		`^https://challenges\.cloudflare\.com/`,
-		`^https://cpp\.sh/`,
+		`^https://www\.onlinegdb\.com/([?#].*)?$`,
+		`^https://onlinegdb\.com/([?#].*)?$`,
+		`^https://www\.onlinegdb\.com/online_c[+][+]_compiler([?#].*)?$`,
+		`^https://www\.onlinegdb\.com/public/`,
+		`^https://www\.onlinegdb\.com/socket\.io/`,
+		`^wss://www\.onlinegdb\.com/socket\.io/`,
+		`^https://in2\.onlinegdb\.com/socket\.io/`,
+		`^wss://in2\.onlinegdb\.com/socket\.io/`,
+		`^https://www\.onlinegdb\.com/beautify([?#].*)?$`,
+		`^blob:https://www\.onlinegdb\.com/`,
+		`^https://stg\.html-load\.com/loader\.min\.js([?#].*)?$`,
+		`^https://www\.onlinegdb\.com/cdn-cgi/challenge-platform/`,
+		`^https://cdn4\.buysellads\.net/pub/onlinegdb\.js([?#].*)?$`,
+		`^https://m\.servedby-buysellads\.com/monetization\.js([?#].*)?$`,
+		`^https://cdn\.carbonads\.com/carbon\.js([?#].*)?$`,
+		`^https://srv\.buysellads\.com/ads/`,
+		`^https://srv\.carbonads\.net/ads/`,
+		`^https://cdn4\.buysellads\.net/uu/`,
+		`^https://check-adblock\.buysellads\.net/i\.gif([?#].*)?$`,
+		`^https://pagead2\.googlesyndication\.com/pagead/js/adsbygoogle\.js([?#].*)?$`,
+		`^https://html-load\.com/loader\.min\.js([?#].*)?$`,
+		`^https://cdnjs\.cloudflare\.com/ajax/libs/bootstrap-select/1\.12\.4/js/bootstrap-select\.min\.js([?#].*)?$`,
+		`^https://cdnjs\.cloudflare\.com/ajax/libs/bootstrap-select/1\.12\.4/css/bootstrap-select\.min\.css([?#].*)?$`,
+		`^https://unpkg\.com/react@17[.0-9]*/umd/react\.production\.min\.js([?#].*)?$`,
+		`^https://unpkg\.com/react-dom@17[.0-9]*/umd/react-dom\.production\.min\.js([?#].*)?$`,
 	}
 	// Participant AJAX routes live under the group, outside /contest/.
 	for _, endpoint := range []string{"customtest", "submitSource", "judgeProtocol", "submissionVerdict", "standings", "contests", "newProblemQuestion", "changeProblemQuestionOrAnnouncementDataPage"} {
@@ -157,8 +181,8 @@ func MakeProfileWithHash(template []byte, hash string, contestURLs ...string) ([
 	settings["allowPreferencesWindow"] = false
 	settings["browserWindowAllowAddressBar"] = false
 	settings["newBrowserWindowAllowAddressBar"] = false
-	settings["allowDownloads"] = false
-	settings["allowUploads"] = false
+	settings["allowDownloads"] = true
+	settings["allowUploads"] = true
 	settings["downloadAndOpenSebConfig"] = false
 	rules := make([]map[string]interface{}, 0, len(allowed))
 	for _, expression := range allowed {
@@ -206,8 +230,8 @@ func ProfileMatchesHash(data []byte, hash string, contestURLs ...string) bool {
 	if !checkBool("allowQuit", true) || !checkBool("showQuitButton", true) ||
 		!checkBool("URLFilterEnable", true) || !checkBool("URLFilterEnableContentFilter", true) ||
 		!checkBool("allowPreferencesWindow", false) || !checkBool("browserWindowAllowAddressBar", false) ||
-		!checkBool("newBrowserWindowAllowAddressBar", false) || !checkBool("allowDownloads", false) ||
-		!checkBool("allowUploads", false) || !checkBool("downloadAndOpenSebConfig", false) ||
+		!checkBool("newBrowserWindowAllowAddressBar", false) || !checkBool("allowDownloads", true) ||
+		!checkBool("allowUploads", true) || !checkBool("downloadAndOpenSebConfig", false) ||
 		fmt.Sprint(settings["sebServicePolicy"]) != "2" || !checkBool("sebServiceIgnore", false) ||
 		settings["hashedQuitPassword"] != strings.ToUpper(hash) || settings["startURL"] != StartURL {
 		return false

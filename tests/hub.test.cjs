@@ -31,7 +31,8 @@ test('template failure does not block the group; retry recovers the compiler', a
   assert.equal(elements.retry.hidden, false);
   responses['/starter.cpp'] = '#include <iostream>\nint main() {}';
   await elements.retry.click();
-  assert.equal(new URL(elements['compiler-link'].href).searchParams.get('source'), responses['/starter.cpp']);
+  assert.equal(new URL(elements['compiler-link'].href).searchParams.get('new_lang'), 'c++20');
+  assert.equal(new URL(elements['compiler-link'].href).searchParams.has('source'), false);
   assert.equal(elements.retry.hidden, true);
 });
 
@@ -41,7 +42,7 @@ test('wrong host and credentials cannot become the contest link', async () => {
     await load();
     assert.equal(elements['group-link'].href, undefined);
     assert.equal(elements['group-link'].attrs.tabindex, '-1');
-    assert.ok(elements['compiler-link'].href.startsWith('https://cpp.sh/'));
+    assert.ok(elements['compiler-link'].href.startsWith('https://www.onlinegdb.com/'));
   }
 });
 

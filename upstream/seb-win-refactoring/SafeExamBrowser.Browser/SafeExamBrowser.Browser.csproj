@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="RoundlaneWorkspace.cs" />
+    <EmbeddedResource Include="..\..\..\starter.cpp"><LogicalName>Roundlane.StarterCpp</LogicalName></EmbeddedResource>
     <EmbeddedResource Include="..\..\..\hub\editor-drafts.js">
       <LogicalName>Roundlane.EditorDrafts.js</LogicalName>
     </EmbeddedResource>

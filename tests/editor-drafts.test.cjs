@@ -93,3 +93,75 @@ test('invalid source payload cannot partially replace the input', () => {
   assert.equal(a.adapter.capture().code, 'source');
   assert.equal(a.adapter.capture().input, '2 3');
 });
+
+function onlineSetup(files = [{ name: 'main.cpp', content: '// default' }]) {
+  const handlers = {}; let active = files[0].name;
+  const nodes = {
+    stdinput: { id: 'stdinput', value: '7 35\n' },
+    'cmd_line_args': { id: 'cmd_line_args', value: '--test' },
+    'lang-select': { id: 'lang-select', value: 'c++17', options: ['c++17','c++20','c++23'].map(value => ({value})), dispatchEvent() {} },
+    input_method_interactive: { checked: false, dispatchEvent() {} },
+    input_method_text: { checked: true, dispatchEvent() {} }
+  };
+  const first = { env: { editor: { getValue: () => files[0].content, setValue: v => { files[0].content = v; } } } };
+  const api = {
+    get_files: () => files, getFile: () => files.find(f => f.name === active) || files[0],
+    set_files: (newFiles, clear) => { assert.equal(clear, undefined, 'original editor must survive'); files = newFiles.map(f=>({...f})); },
+    set_default_editor_filename: name => { files[0].name = name; },
+    set_default_editor_content: content => { files[0].content = content; },
+    delete_file: name => { assert.notEqual(name, files[0].name); files = files.filter(f=>f.name!==name); }
+  };
+  const document = {
+    addEventListener: (name,fn) => { handlers[name]=fn; },
+    getElementById: id => nodes[id],
+    querySelector: s => s === '.ace_editor' ? first : null,
+    querySelectorAll: () => files.map(f=>({ querySelector:()=>({textContent:f.name}),click:()=>{ active=f.name; } })),
+    createElement: () => ({}), head: {appendChild: style=>{nodes[style.id]=style;}}
+  };
+  const window = { location:{hostname:'www.onlinegdb.com'},ace:{},ide:{editor:api} };
+  const context = vm.createContext({ window,document,Event:class{} });
+  vm.runInContext(script,context);
+  return {adapter:window.__roundlaneEditor,window,nodes,handlers,api,files:()=>files,active:()=>active};
+}
+test('OnlineGDB: initializes C++20 and starter once without replacing later edits',()=>{
+ const a=onlineSetup(); a.adapter.initialize('STARTER');
+ assert.equal(a.nodes['lang-select'].value,'c++20');assert.equal(a.files()[0].content,'STARTER');
+ a.files()[0].content='MY WORK';a.adapter.initialize('STARTER');assert.equal(a.files()[0].content,'MY WORK');
+ assert.ok(a.nodes['roundlane-ide-policy'].textContent.includes('#control-btn-askai'));
+});
+test('OnlineGDB: project, active file, language, args and input survive restore',()=>{
+ const a=onlineSetup([{name:'main.cpp',content:'MAIN'},{name:'lib.h',content:'HEADER'}]);
+ a.nodes['lang-select'].value='c++23';const data=a.adapter.capture();const project=JSON.parse(data.project);project.active='lib.h';data.project=JSON.stringify(project);
+ const b=onlineSetup([{name:'main.cpp',content:'default'},{name:'extra.cpp',content:'discard'}]);
+ assert.equal(b.adapter.restore(data),'applied');assert.equal(JSON.stringify(b.files()),JSON.stringify(a.files()));
+ assert.equal(b.active(),'lib.h');assert.equal(b.nodes['lang-select'].value,'c++23');assert.equal(b.nodes.cmd_line_args.value,'--test');assert.equal(b.nodes.stdinput.value,'7 35\n');
+});
+test('OnlineGDB: input edits do not discard a saved multifile project',()=>{
+ const a=onlineSetup();a.nodes.stdinput.value='NEW';a.handlers.input({target:a.nodes.stdinput});
+ const data=onlineSetup([{name:'main.cpp',content:'SAVED'},{name:'lib.h',content:'HEADER'}]).adapter.capture();
+ assert.equal(a.adapter.restore(data),'edited');assert.equal(a.files().length,2);assert.equal(a.files()[0].content,'SAVED');assert.equal(a.nodes.stdinput.value,'NEW');
+});
+test('OnlineGDB: editing or adding files blocks source restore but preserves saved stdin',()=>{
+ for(const event of ['code','project']){
+ const a=onlineSetup([{name:'main.cpp',content:'NEW'}]);
+ if(event==='code')a.handlers.input({target:{closest:()=>true}});else a.handlers.click({target:{closest:()=>true}});
+ a.adapter.restore(onlineSetup([{name:'main.cpp',content:'OLD'}]).adapter.capture());assert.equal(a.files()[0].content,'NEW');assert.equal(a.nodes.stdinput.value,'7 35\n');
+ }
+});
+test('OnlineGDB: invalid project cannot partially replace code or input',()=>{
+ for(const files of [[{name:'../secret',content:'x'}],[{name:'x',content:'a'},{name:'x',content:'b'}],Array.from({length:33},(_,i)=>({name:String(i),content:'x'})),[{name:'x',content:'x'.repeat(262145)}]]){
+ const a=onlineSetup();const status=a.adapter.restore({code:'BAD',input:'BAD',project:JSON.stringify({files})});assert.equal(status,'invalid');assert.equal(a.files()[0].content,'// default');assert.equal(a.nodes.stdinput.value,'7 35\n');
+ }
+});
+
+test('OnlineGDB: missing optional template helper falls back to the initialized Ace editor',()=>{
+ const a=onlineSetup();delete a.api.set_default_editor_content;assert.doesNotThrow(()=>a.adapter.initialize('STARTER'));assert.equal(a.adapter.capture().code,'STARTER');
+});
+
+test('OnlineGDB: late site startup cannot discard the starter or overwrite a restored draft',()=>{
+ for(const saved of [false,true]){
+ const a=onlineSetup();const timers=[];a.window.setTimeout=fn=>timers.push(fn);a.adapter.initialize('STARTER');
+ a.files()[0].content='SITE DEFAULT';if(saved)a.adapter.restore({code:'SAVED',input:'42'});
+ for(const run of timers)run();assert.equal(a.files()[0].content,saved?'SAVED':'STARTER');
+ }
+});

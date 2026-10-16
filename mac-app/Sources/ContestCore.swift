@@ -12,7 +12,30 @@ enum ContestCore {
         "^https://codeforces\\.com/",
         "^https://assets\\.codeforces\\.com/",
         "^https://challenges\\.cloudflare\\.com/",
-        "^https://cpp\\.sh/"
+        "^https://www\\.onlinegdb\\.com/([?#].*)?$",
+        "^https://onlinegdb\\.com/([?#].*)?$",
+        "^https://www\\.onlinegdb\\.com/online_c[+][+]_compiler([?#].*)?$",
+        "^https://www\\.onlinegdb\\.com/public/",
+        "^https://www\\.onlinegdb\\.com/socket\\.io/",
+        "^wss://www\\.onlinegdb\\.com/socket\\.io/",
+        "^https://in2\\.onlinegdb\\.com/socket\\.io/",
+        "^wss://in2\\.onlinegdb\\.com/socket\\.io/",
+        "^https://www\\.onlinegdb\\.com/beautify([?#].*)?$",
+        "^blob:https://www\\.onlinegdb\\.com/",
+        "^https://stg\\.html-load\\.com/loader\\.min\\.js([?#].*)?$",
+        "^https://www\\.onlinegdb\\.com/cdn-cgi/challenge-platform/",
+        "^https://cdn4\\.buysellads\\.net/pub/onlinegdb\\.js([?#].*)?$",
+        "^https://m\\.servedby-buysellads\\.com/monetization\\.js([?#].*)?$",
+        "^https://cdn\\.carbonads\\.com/carbon\\.js([?#].*)?$",
+        "^https://srv\\.buysellads\\.com/ads/",
+        "^https://srv\\.carbonads\\.net/ads/",
+        "^https://cdn4\\.buysellads\\.net/uu/",
+        "^https://check-adblock\\.buysellads\\.net/i\\.gif([?#].*)?$",
+        "^https://pagead2\\.googlesyndication\\.com/pagead/js/adsbygoogle\\.js([?#].*)?$",
+        "^https://html-load\\.com/loader\\.min\\.js([?#].*)?$", "^https://cdnjs\\.cloudflare\\.com/ajax/libs/bootstrap-select/1\\.12\\.4/js/bootstrap-select\\.min\\.js([?#].*)?$",
+        "^https://cdnjs\\.cloudflare\\.com/ajax/libs/bootstrap-select/1\\.12\\.4/css/bootstrap-select\\.min\\.css([?#].*)?$",
+        "^https://unpkg\\.com/react@17[.0-9]*/umd/react\\.production\\.min\\.js([?#].*)?$",
+        "^https://unpkg\\.com/react-dom@17[.0-9]*/umd/react-dom\\.production\\.min\\.js([?#].*)?$"
     ]
 
     static func groupURL(_ raw: String) -> URL? {
@@ -62,8 +85,8 @@ enum ContestCore {
         settings["allowPreferencesWindow"] = false
         settings["browserWindowAllowAddressBar"] = false
         settings["newBrowserWindowAllowAddressBar"] = false
-        settings["allowDownloads"] = false
-        settings["allowUploads"] = false
+        settings["allowDownloads"] = true
+        settings["allowUploads"] = true
         settings["downloadAndOpenSebConfig"] = false
         settings["URLFilterRules"] = allowExpressions.map { expression in
             ["action": 1, "active": true, "expression": expression, "regex": true] as [String: Any]
@@ -94,8 +117,8 @@ enum ContestCore {
             && settings["allowPreferencesWindow"] as? Bool == false
             && settings["browserWindowAllowAddressBar"] as? Bool == false
             && settings["newBrowserWindowAllowAddressBar"] as? Bool == false
-            && settings["allowDownloads"] as? Bool == false
-            && settings["allowUploads"] as? Bool == false
+            && settings["allowDownloads"] as? Bool == true
+            && settings["allowUploads"] as? Bool == true
             && settings["downloadAndOpenSebConfig"] as? Bool == false
             && rulesMatch
             && usabilityKeys.allSatisfy { settings[$0] as? Bool == true }
